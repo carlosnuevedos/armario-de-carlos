@@ -27,7 +27,7 @@
 
         html, body {
             width: 100%;
-            overflow-x: hidden; /* Evita desbordamiento horizontal y necesidad de zoom out */
+            overflow-x: hidden;
         }
 
         body {
@@ -145,7 +145,7 @@
             border-radius: 12px;
             padding: 12px 14px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-            min-width: 220px;
+            min-width: 230px;
             z-index: 700;
             font-size: 0.75rem;
             color: var(--text-secondary);
@@ -281,7 +281,6 @@
             color: var(--text-primary);
         }
 
-        /* 2 COLUMNAS PERFECTAMENTE AJUSTADAS A LA PANTALLA MÓVIL */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -571,6 +570,7 @@
         const contactToggleBtn = document.getElementById('contactToggleBtn');
         const contactInfoBox = document.getElementById('contactInfoBox');
 
+        // Control seguro del menú desplegable de contacto
         contactToggleBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             contactInfoBox.classList.toggle('show');
@@ -613,3 +613,105 @@
                         }
                     } else {
                         categoriasPrincipales.add(info.marca);
+                    }
+
+                    tarjetasHTML.push(`
+                        <div class="product-card" data-categoria="${info.marca}" data-subcat="${subCatFootball}" data-src="${rutaImg}" data-titulo="${info.titulo}">
+                            <div class="img-wrapper">
+                                <img src="${rutaImg}" alt="${info.titulo}" loading="lazy">
+                            </div>
+                            <div class="card-info">
+                                <span class="brand-tag">${info.marca}</span>
+                                <span class="product-title">${info.titulo}</span>
+                                <div class="action-btn">Ver producto</div>
+                            </div>
+                        </div>
+                    `);
+                }
+
+                galeria.innerHTML = tarjetasHTML.join('');
+
+                construirNavbar(categoriasPrincipales, subcategoriasFootball);
+                iniciarSlideshowHero();
+                activarFiltros();
+                activarModal();
+
+            } catch (error) {
+                console.error(error);
+                galeria.innerHTML = "<p style='text-align:center; grid-column: 1/-1; padding: 2rem;'>Error al cargar <code>catalogo_info.json</code>. Revisa la ruta de los archivos en el repositorio.</p>";
+            }
+        }
+
+        function construirNavbar(categoriasExistentes, subcategoriasFootball) {
+            const ordenPersonalizado = [
+                "Adidas",
+                "Nike",
+                "New Balance",
+                "Football",
+                "Converse",
+                "Vans",
+                "On Running",
+                "Ugg",
+                "Veja",
+                "Hoka",
+                "Brooks",
+                "Otras",
+                "Todas"
+            ];
+
+            let htmlNav = "";
+
+            ordenPersonalizado.forEach(cat => {
+                if (cat === "Football") {
+                    if (subcategoriasFootball.size > 0 || Array.from(categoriasExistentes).some(c => c.toLowerCase() === 'football')) {
+                        htmlNav += `
+                            <div class="dropdown-container">
+                                <button class="nav-btn" id="footballBtn" data-filtro="Football" type="button">Football ▾</button>
+                                <div class="dropdown-menu">
+                                    <button class="dropdown-item" data-filtro="Football" type="button">Todo Football</button>
+                        `;
+
+                        subcategoriasFootball.forEach(sub => {
+                            htmlNav += `<button class="dropdown-item" data-subfiltro="${sub}" type="button">${sub}</button>`;
+                        });
+
+                        htmlNav += `</div></div>`;
+                    }
+                } else if (cat === "Todas") {
+                    htmlNav += `<button class="nav-btn" data-filtro="todos" type="button">Todas</button>`;
+                } else {
+                    htmlNav += `<button class="nav-btn" data-filtro="${cat}" type="button">${cat}</button>`;
+                }
+            });
+
+            navCategories.innerHTML = htmlNav;
+            const primerBoton = navCategories.querySelector('.nav-btn');
+            if (primerBoton) primerBoton.classList.add('active');
+        }
+
+        function iniciarSlideshowHero() {
+            if (listaImagenesGlobal.length === 0) return;
+
+            setInterval(() => {
+                const randomIndex = Math.floor(Math.random() * listaImagenesGlobal.length);
+                heroBanner.style.backgroundImage = `url('${listaImagenesGlobal[randomIndex]}')`;
+            }, 4500);
+
+            const initialIndex = Math.floor(Math.random() * listaImagenesGlobal.length);
+            heroBanner.style.backgroundImage = `url('${listaImagenesGlobal[initialIndex]}')`;
+        }
+
+        function activarFiltros() {
+            const buttons = document.querySelectorAll('.header-container .nav-btn, .header-container .dropdown-item');
+            const cards = document.querySelectorAll('.product-card');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    const filtroCat = button.getAttribute('data-filtro');
+                    const filtroSubCat = button.getAttribute('data-subfiltro');
+
+                    cards.forEach(card => {
+                        const catCard = card.getAttribute('
