@@ -522,6 +522,7 @@
         
         <div class="nav-bar-row">
             <nav class="nav-categories" id="navCategories">
+                <!-- Se rellena dinámicamente -->
             </nav>
 
             <div class="contact-dropdown-container">
@@ -559,205 +560,214 @@
     </footer>
 
     <script>
-        const galeria = document.getElementById('galeria');
-        const navCategories = document.getElementById('navCategories');
-        const heroBanner = document.getElementById('heroBanner');
-        const modal = document.getElementById('imageModal');
-        const modalImg = document.getElementById('modalImg');
-        const modalCaption = document.getElementById('modalCaption');
-        const closeModalBtn = document.getElementById('closeModalBtn');
+        document.addEventListener('DOMContentLoaded', () => {
+            const galeria = document.getElementById('galeria');
+            const navCategories = document.getElementById('navCategories');
+            const heroBanner = document.getElementById('heroBanner');
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            const modalCaption = document.getElementById('modalCaption');
+            const closeModalBtn = document.getElementById('closeModalBtn');
 
-        const contactToggleBtn = document.getElementById('contactToggleBtn');
-        const contactInfoBox = document.getElementById('contactInfoBox');
+            const contactToggleBtn = document.getElementById('contactToggleBtn');
+            const contactInfoBox = document.getElementById('contactInfoBox');
 
-        contactToggleBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            contactInfoBox.classList.toggle('show');
-        });
+            // Toggle del botón contacto con seguridad absoluta
+            if (contactToggleBtn && contactInfoBox) {
+                contactToggleBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    contactInfoBox.classList.toggle('show');
+                });
 
-        document.addEventListener('click', () => {
-            contactInfoBox.classList.remove('show');
-        });
+                document.addEventListener('click', () => {
+                    contactInfoBox.classList.remove('show');
+                });
 
-        contactInfoBox.addEventListener('click', (e) => {
-            e.stopPropagation();
-        });
+                contactInfoBox.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+            }
 
-        let listaImagenesGlobal = [];
+            let listaImagenesGlobal = [];
 
-        async function cargarCatalogo() {
-            try {
-                const response = await fetch('catalogo_info.json');
-                if (!response.ok) throw new Error('No se pudo cargar el JSON');
-                
-                const data = await response.json();
-                let categoriasPrincipales = new Set();
-                let subcategoriasFootball = new Set();
-                let tarjetasHTML = [];
-
-                for (let [filename, info] of Object.entries(data)) {
-                    const carpeta = info.carpeta || info.marca.toLowerCase().replace(" ", "_");
-                    const rutaImg = `fotos_yupoo/${carpeta}/${filename}`;
+            async function cargarCatalogo() {
+                try {
+                    const response = await fetch('catalogo_info.json');
+                    if (!response.ok) throw new Error('No se pudo cargar el JSON');
                     
-                    listaImagenesGlobal.push(rutaImg);
+                    const data = await response.json();
+                    let categoriasPrincipales = new Set();
+                    let subcategoriasFootball = new Set();
+                    let tarjetasHTML = [];
 
-                    let esFootball = carpeta.toLowerCase().includes('football');
-                    let subCatFootball = '';
+                    for (let [filename, info] of Object.entries(data)) {
+                        const carpeta = info.carpeta || info.marca.toLowerCase().replace(" ", "_");
+                        const rutaImg = `fotos_yupoo/${carpeta}/${filename}`;
+                        
+                        listaImagenesGlobal.push(rutaImg);
 
-                    if (esFootball) {
-                        const partes = carpeta.split('/');
-                        if (partes.length > 1) {
-                            subCatFootball = partes[partes.length - 1].replace(/_/g, ' ').toUpperCase();
-                            subcategoriasFootball.add(subCatFootball);
+                        let esFootball = carpeta.toLowerCase().includes('football');
+                        let subCatFootball = '';
+
+                        if (esFootball) {
+                            const partes = carpeta.split('/');
+                            if (partes.length > 1) {
+                                subCatFootball = partes[partes.length - 1].replace(/_/g, ' ').toUpperCase();
+                                subcategoriasFootball.add(subCatFootball);
+                            }
+                        } else {
+                            categoriasPrincipales.add(info.marca);
                         }
-                    } else {
-                        categoriasPrincipales.add(info.marca);
+
+                        tarjetasHTML.push(`
+                            <div class="product-card" data-categoria="${info.marca}" data-subcat="${subCatFootball}" data-src="${rutaImg}" data-titulo="${info.titulo}">
+                                <div class="img-wrapper">
+                                    <img src="${rutaImg}" alt="${info.titulo}" loading="lazy">
+                                </div>
+                                <div class="card-info">
+                                    <span class="brand-tag">${info.marca}</span>
+                                    <span class="product-title">${info.titulo}</span>
+                                    <div class="action-btn">Ver producto</div>
+                                </div>
+                            </div>
+                        `);
                     }
 
-                    tarjetasHTML.push(`
-                        <div class="product-card" data-categoria="${info.marca}" data-subcat="${subCatFootball}" data-src="${rutaImg}" data-titulo="${info.titulo}">
-                            <div class="img-wrapper">
-                                <img src="${rutaImg}" alt="${info.titulo}" loading="lazy">
-                            </div>
-                            <div class="card-info">
-                                <span class="brand-tag">${info.marca}</span>
-                                <span class="product-title">${info.titulo}</span>
-                                <div class="action-btn">Ver producto</div>
-                            </div>
-                        </div>
-                    `);
+                    galeria.innerHTML = tarjetasHTML.join('');
+
+                    construirNavbar(categoriasPrincipales, subcategoriasFootball);
+                    iniciarSlideshowHero();
+                    activarFiltros();
+                    activarModal();
+
+                } catch (error) {
+                    console.error("Error al cargar el catálogo:", error);
+                    galeria.innerHTML = "<p style='text-align:center; grid-column: 1/-1; padding: 2rem; color: #a0aec0;'>Error al cargar <code>catalogo_info.json</code>. Verifica que el archivo esté en la raíz del repositorio.</p>";
                 }
-
-                galeria.innerHTML = tarjetasHTML.join('');
-
-                construirNavbar(categoriasPrincipales, subcategoriasFootball);
-                iniciarSlideshowHero();
-                activarFiltros();
-                activarModal();
-
-            } catch (error) {
-                console.error(error);
-                galeria.innerHTML = "<p style='text-align:center; grid-column: 1/-1; padding: 2rem;'>Error al cargar <code>catalogo_info.json</code>. Revisa la ruta de los archivos en el repositorio.</p>";
             }
-        }
 
-        function construirNavbar(categoriasExistentes, subcategoriasFootball) {
-            const ordenPersonalizado = [
-                "Adidas",
-                "Nike",
-                "New Balance",
-                "Football",
-                "Converse",
-                "Vans",
-                "On Running",
-                "Ugg",
-                "Veja",
-                "Hoka",
-                "Brooks",
-                "Otras",
-                "Todas"
-            ];
+            function construirNavbar(categoriasExistentes, subcategoriasFootball) {
+                const ordenPersonalizado = [
+                    "Adidas",
+                    "Nike",
+                    "New Balance",
+                    "Football",
+                    "Converse",
+                    "Vans",
+                    "On Running",
+                    "Ugg",
+                    "Veja",
+                    "Hoka",
+                    "Brooks",
+                    "Otras",
+                    "Todas"
+                ];
 
-            let htmlNav = "";
+                let htmlNav = "";
 
-            ordenPersonalizado.forEach(cat => {
-                if (cat === "Football") {
-                    if (subcategoriasFootball.size > 0 || Array.from(categoriasExistentes).some(c => c.toLowerCase() === 'football')) {
-                        htmlNav += `
-                            <div class="dropdown-container">
-                                <button class="nav-btn" id="footballBtn" data-filtro="Football" type="button">Football ▾</button>
-                                <div class="dropdown-menu">
-                                    <button class="dropdown-item" data-filtro="Football" type="button">Todo Football</button>
-                        `;
+                ordenPersonalizado.forEach(cat => {
+                    if (cat === "Football") {
+                        if (subcategoriasFootball.size > 0 || Array.from(categoriasExistentes).some(c => c.toLowerCase() === 'football')) {
+                            htmlNav += `
+                                <div class="dropdown-container">
+                                    <button class="nav-btn" id="footballBtn" data-filtro="Football" type="button">Football ▾</button>
+                                    <div class="dropdown-menu">
+                                        <button class="dropdown-item" data-filtro="Football" type="button">Todo Football</button>
+                            `;
 
-                        subcategoriasFootball.forEach(sub => {
-                            htmlNav += `<button class="dropdown-item" data-subfiltro="${sub}" type="button">${sub}</button>`;
+                            subcategoriasFootball.forEach(sub => {
+                                htmlNav += `<button class="dropdown-item" data-subfiltro="${sub}" type="button">${sub}</button>`;
+                            });
+
+                            htmlNav += `</div></div>`;
+                        }
+                    } else if (cat === "Todas") {
+                        htmlNav += `<button class="nav-btn" data-filtro="todos" type="button">Todas</button>`;
+                    } else {
+                        htmlNav += `<button class="nav-btn" data-filtro="${cat}" type="button">${cat}</button>`;
+                    }
+                });
+
+                navCategories.innerHTML = htmlNav;
+                const primerBoton = navCategories.querySelector('.nav-btn');
+                if (primerBoton) primerBoton.classList.add('active');
+            }
+
+            function iniciarSlideshowHero() {
+                if (listaImagenesGlobal.length === 0) return;
+
+                setInterval(() => {
+                    const randomIndex = Math.floor(Math.random() * listaImagenesGlobal.length);
+                    heroBanner.style.backgroundImage = `url('${listaImagenesGlobal[randomIndex]}')`;
+                }, 4500);
+
+                const initialIndex = Math.floor(Math.random() * listaImagenesGlobal.length);
+                heroBanner.style.backgroundImage = `url('${listaImagenesGlobal[initialIndex]}')`;
+            }
+
+            function activarFiltros() {
+                const buttons = document.querySelectorAll('.header-container .nav-btn, .header-container .dropdown-item');
+                const cards = document.querySelectorAll('.product-card');
+
+                buttons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        buttons.forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+
+                        const filtroCat = button.getAttribute('data-filtro');
+                        const filtroSubCat = button.getAttribute('data-subfiltro');
+
+                        cards.forEach(card => {
+                            const catCard = card.getAttribute('data-categoria');
+                            const subCatCard = card.getAttribute('data-subcat');
+
+                            if (filtroCat === 'todos') {
+                                card.style.display = 'flex';
+                            } else if (filtroCat && catCard.toLowerCase() === filtroCat.toLowerCase()) {
+                                card.style.display = 'flex';
+                            } else if (filtroCat === 'Football' && (catCard.toLowerCase().includes('football') || subCatCard !== '')) {
+                                card.style.display = 'flex';
+                            } else if (filtroSubCat && subCatCard === filtroSubCat) {
+                                card.style.display = 'flex';
+                            } else {
+                                card.style.display = 'none';
+                            }
                         });
 
-                        htmlNav += `</div></div>`;
-                    }
-                } else if (cat === "Todas") {
-                    htmlNav += `<button class="nav-btn" data-filtro="todos" type="button">Todas</button>`;
-                } else {
-                    htmlNav += `<button class="nav-btn" data-filtro="${cat}" type="button">${cat}</button>`;
+                        const targetElement = document.getElementById('galeriaContainer');
+                        const headerOffset = 80;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    });
+                });
+            }
+
+            function activarModal() {
+                const cards = document.querySelectorAll('.product-card');
+                cards.forEach(card => {
+                    card.addEventListener('click', () => {
+                        modal.style.display = 'flex';
+                        modalImg.src = card.getAttribute('data-src');
+                        modalCaption.textContent = card.getAttribute('data-titulo');
+                    });
+                });
+
+                if (closeModalBtn) {
+                    closeModalBtn.addEventListener('click', () => modal.style.display = 'none');
                 }
-            });
+                if (modal) {
+                    modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+                }
+                document.addEventListener('keydown', (e) => { if (e.key === 'Escape') modal.style.display = 'none'; });
+            }
 
-            navCategories.innerHTML = htmlNav;
-            const primerBoton = navCategories.querySelector('.nav-btn');
-            if (primerBoton) primerBoton.classList.add('active');
-        }
-
-        function iniciarSlideshowHero() {
-            if (listaImagenesGlobal.length === 0) return;
-
-            setInterval(() => {
-                const randomIndex = Math.floor(Math.random() * listaImagenesGlobal.length);
-                heroBanner.style.backgroundImage = `url('${listaImagenesGlobal[randomIndex]}')`;
-            }, 4500);
-
-            const initialIndex = Math.floor(Math.random() * listaImagenesGlobal.length);
-            heroBanner.style.backgroundImage = `url('${listaImagenesGlobal[initialIndex]}')`;
-        }
-
-        function activarFiltros() {
-            const buttons = document.querySelectorAll('.header-container .nav-btn, .header-container .dropdown-item');
-            const cards = document.querySelectorAll('.product-card');
-
-            buttons.forEach(button => {
-                button.addEventListener('click', () => {
-                    buttons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-
-                    const filtroCat = button.getAttribute('data-filtro');
-                    const filtroSubCat = button.getAttribute('data-subfiltro');
-
-                    cards.forEach(card => {
-                        const catCard = card.getAttribute('data-categoria');
-                        const subCatCard = card.getAttribute('data-subcat');
-
-                        if (filtroCat === 'todos') {
-                            card.style.display = 'flex';
-                        } else if (filtroCat && catCard.toLowerCase() === filtroCat.toLowerCase()) {
-                            card.style.display = 'flex';
-                        } else if (filtroCat === 'Football' && (catCard.toLowerCase().includes('football') || subCatCard !== '')) {
-                            card.style.display = 'flex';
-                        } else if (filtroSubCat && subCatCard === filtroSubCat) {
-                            card.style.display = 'flex';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-
-                    const targetElement = document.getElementById('galeriaContainer');
-                    const headerOffset = 80;
-                    const elementPosition = targetElement.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                });
-            });
-        }
-
-        function activarModal() {
-            const cards = document.querySelectorAll('.product-card');
-            cards.forEach(card => {
-                card.addEventListener('click', () => {
-                    modal.style.display = 'flex';
-                    modalImg.src = card.getAttribute('data-src');
-                    modalCaption.textContent = card.getAttribute('data-titulo');
-                });
-            });
-
-            closeModalBtn.addEventListener('click', () => modal.style.display = 'none');
-            modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
-            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') modal.style.display = 'none'; });
-        }
-
-        cargarCatalogo();
+            cargarCatalogo();
+        });
     </script>
 </body>
 </html>
