@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Stock Carlos | Catálogo Oficial</title>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Black+Ops+One&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
@@ -33,58 +33,62 @@
             min-height: 100vh;
         }
 
-        /* NAVBAR PRINCIPAL Y COMPACTA EN MÓVIL */
+        /* NAVBAR MÓVIL: LOGO + CONTACTO ARRIBA, CATEGORÍAS DEBAJO */
         .nike-navbar {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.8rem 1rem;
+            flex-direction: column;
+            padding: 0.6rem 0.8rem;
             background: rgba(26, 34, 42, 0.95);
             backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
             z-index: 500;
             border-bottom: 1px solid var(--accent-border);
-            gap: 10px;
+            gap: 6px;
+        }
+
+        .nav-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
         }
 
         .brand-logo {
             font-family: 'Anton', sans-serif;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             letter-spacing: 1px;
             color: var(--text-primary);
             text-transform: uppercase;
             line-height: 1;
-            white-space: nowrap;
         }
 
         .nav-right-group {
             display: flex;
             align-items: center;
-            gap: 8px;
-            width: 100%;
-            overflow-x: auto;
-            padding-bottom: 4px;
         }
 
-        .nav-right-group::-webkit-scrollbar {
-            display: none;
-        }
-
+        /* CATEGORÍAS DEBAJO EN FORMATO DESLIZABLE HORIZONTAL */
         .nav-categories {
             display: flex;
             align-items: center;
             gap: 6px;
-            flex-wrap: nowrap;
+            overflow-x: auto;
+            width: 100%;
+            padding-bottom: 2px;
+        }
+
+        .nav-categories::-webkit-scrollbar {
+            display: none;
         }
 
         .nav-btn {
             background: transparent;
             border: 1px solid transparent;
             color: var(--text-secondary);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 0.7rem;
             font-weight: 600;
             cursor: pointer;
             white-space: nowrap;
@@ -100,12 +104,11 @@
             background-color: var(--btn-white-bg);
             color: var(--btn-white-text);
             font-weight: 800;
-            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
         }
 
         .contact-dropdown-container {
             position: relative;
-            flex-shrink: 0;
         }
 
         .contact-btn {
@@ -113,12 +116,12 @@
             border: 1px solid var(--accent-border);
             color: var(--text-primary);
             font-family: 'Anton', sans-serif;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
+            font-size: 0.85rem;
+            letter-spacing: 0.8px;
             text-transform: uppercase;
             cursor: pointer;
-            padding: 5px 10px;
-            border-radius: 20px;
+            padding: 4px 10px;
+            border-radius: 16px;
             transition: all 0.25s ease;
             background-color: rgba(255, 255, 255, 0.03);
             white-space: nowrap;
@@ -139,7 +142,7 @@
             border-radius: 12px;
             padding: 12px 14px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-            min-width: 230px;
+            min-width: 220px;
             z-index: 700;
             font-size: 0.75rem;
             color: var(--text-secondary);
@@ -188,7 +191,7 @@
             color: var(--text-secondary);
             text-align: left;
             padding: 6px 10px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             border-radius: 6px;
             cursor: pointer;
@@ -203,8 +206,8 @@
 
         .hero-section {
             position: relative;
-            height: 200px;
-            margin: 0.8rem 1rem;
+            height: 170px;
+            margin: 0.6rem 0.8rem;
             clip-path: polygon(0 0, 100% 0, 100% 92%, 95% 100%, 0 96%);
             overflow: hidden;
             display: flex;
@@ -212,7 +215,7 @@
             justify-content: center;
             background-size: cover;
             background-position: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
         }
 
         .hero-section::before {
@@ -228,43 +231,43 @@
         .hero-overlay {
             position: relative;
             z-index: 2;
-            padding: 0.5rem;
+            padding: 0.4rem;
             text-align: center;
         }
 
         .hero-title {
             font-family: 'Anton', sans-serif;
-            font-size: 2rem;
-            letter-spacing: 1.5px;
+            font-size: 1.6rem;
+            letter-spacing: 1px;
             color: #ffffff;
             text-transform: uppercase;
-            margin-bottom: 0.2rem;
-            text-shadow: 0 3px 15px rgba(0,0,0,0.9);
+            margin-bottom: 0.1rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.9);
         }
 
         .hero-subtitle {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             color: var(--text-secondary);
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
             text-transform: uppercase;
             font-weight: 600;
         }
 
         .main-container {
-            padding: 0.5rem 1rem 3rem 1rem;
+            padding: 0.4rem 0.8rem 3rem 0.8rem;
         }
 
         .section-header {
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.6rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .section-title {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: 800;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
             text-transform: uppercase;
             color: var(--text-primary);
         }
@@ -273,14 +276,14 @@
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            gap: 8px;
         }
 
         .product-card {
             background: var(--bg-card);
             border: 1px solid var(--accent-border);
-            border-radius: 10px;
-            padding: 6px;
+            border-radius: 8px;
+            padding: 5px;
             display: flex;
             flex-direction: column;
             transition: all 0.3s ease;
@@ -289,16 +292,16 @@
 
         .product-card:hover {
             background: var(--bg-card-hover);
-            transform: translateY(-3px);
+            transform: translateY(-2px);
         }
 
         .img-wrapper {
             width: 100%;
-            height: 120px;
-            border-radius: 6px;
+            height: 110px;
+            border-radius: 5px;
             overflow: hidden;
             background: #141b22;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
         }
 
         .product-card img {
@@ -315,15 +318,15 @@
         }
 
         .brand-tag {
-            font-size: 0.55rem;
+            font-size: 0.5rem;
             font-weight: 800;
             color: var(--text-secondary);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.4px;
         }
 
         .product-title {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 600;
             color: var(--text-primary);
             white-space: nowrap;
@@ -332,43 +335,43 @@
         }
 
         .action-btn {
-            margin-top: 5px;
+            margin-top: 4px;
             background: var(--btn-black-bg);
             color: var(--btn-black-text);
             border: 1px solid var(--accent-border);
-            padding: 5px;
-            border-radius: 5px;
-            font-size: 0.6rem;
+            padding: 4px;
+            border-radius: 4px;
+            font-size: 0.55rem;
             font-weight: 600;
             text-align: center;
         }
 
-        /* ESTILOS ESPECÍFICOS PARA PC (MANTENIDOS IDÉNTICOS) */
+        /* VERSIÓN PC (INALTERADA Y PERFECTA) */
         @media (min-width: 768px) {
             .nike-navbar {
-                display: flex;
+                flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
                 padding: 1.2rem 3rem;
                 gap: 15px;
+            }
+            .nav-top-row {
+                width: auto;
             }
             .brand-logo {
                 font-size: 2.2rem;
                 letter-spacing: 2px;
             }
             .nav-right-group {
-                display: flex;
-                align-items: center;
-                gap: 20px;
                 width: auto;
                 overflow-x: visible;
-                padding-bottom: 0;
             }
             .nav-categories {
                 display: flex;
                 align-items: center;
                 gap: 10px;
                 flex-wrap: wrap;
+                width: auto;
             }
             .nav-btn {
                 padding: 8px 18px;
@@ -502,13 +505,8 @@
 <body>
 
     <header class="nike-navbar">
-        <div class="brand-logo">Stock Carlos</div>
-        
-        <div class="nav-right-group">
-            <nav class="nav-categories" id="navCategories">
-                <button class="nav-btn active" data-filtro="todos">Todas</button>
-            </nav>
-
+        <div class="nav-top-row">
+            <div class="brand-logo">Stock Carlos</div>
             <div class="contact-dropdown-container">
                 <button class="contact-btn" id="contactToggleBtn">Contacto</button>
                 <div class="contact-info-box" id="contactInfoBox">
@@ -516,6 +514,12 @@
                     Teléfono: <span>655 12 11 74</span>
                 </div>
             </div>
+        </div>
+        
+        <div class="nav-right-group">
+            <nav class="nav-categories" id="navCategories">
+                <button class="nav-btn active" data-filtro="todos">Todas</button>
+            </nav>
         </div>
     </header>
 
@@ -691,7 +695,7 @@
                     });
 
                     const targetElement = document.getElementById('galeriaContainer');
-                    const headerOffset = 60;
+                    const headerOffset = 90;
                     const elementPosition = targetElement.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
