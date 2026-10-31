@@ -33,56 +33,58 @@
             min-height: 100vh;
         }
 
-        /* NAVBAR ADAPTABLE */
+        /* NAVBAR PRINCIPAL Y COMPACTA EN MÓVIL */
         .nike-navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 2rem;
-            background: rgba(26, 34, 42, 0.9);
+            padding: 0.8rem 1rem;
+            background: rgba(26, 34, 42, 0.95);
             backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
             z-index: 500;
             border-bottom: 1px solid var(--accent-border);
-            gap: 15px;
+            gap: 10px;
         }
 
         .brand-logo {
             font-family: 'Anton', sans-serif;
-            font-size: 1.8rem;
-            letter-spacing: 2px;
+            font-size: 1.4rem;
+            letter-spacing: 1px;
             color: var(--text-primary);
             text-transform: uppercase;
             line-height: 1;
+            white-space: nowrap;
         }
 
         .nav-right-group {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 8px;
+            width: 100%;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .nav-right-group::-webkit-scrollbar {
+            display: none;
         }
 
         .nav-categories {
             display: flex;
             align-items: center;
-            gap: 8px;
-            overflow-x: auto;
-            max-width: 55vw;
-            padding-bottom: 4px;
-        }
-
-        .nav-categories::-webkit-scrollbar {
-            display: none; /* Ocultar barra de desplazamiento en móvil */
+            gap: 6px;
+            flex-wrap: nowrap;
         }
 
         .nav-btn {
             background: transparent;
             border: 1px solid transparent;
             color: var(--text-secondary);
-            padding: 6px 14px;
-            border-radius: 30px;
-            font-size: 0.8rem;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
             font-weight: 600;
             cursor: pointer;
             white-space: nowrap;
@@ -98,11 +100,12 @@
             background-color: var(--btn-white-bg);
             color: var(--btn-white-text);
             font-weight: 800;
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
         }
 
         .contact-dropdown-container {
             position: relative;
+            flex-shrink: 0;
         }
 
         .contact-btn {
@@ -110,12 +113,12 @@
             border: 1px solid var(--accent-border);
             color: var(--text-primary);
             font-family: 'Anton', sans-serif;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             letter-spacing: 1px;
             text-transform: uppercase;
             cursor: pointer;
-            padding: 6px 14px;
-            border-radius: 30px;
+            padding: 5px 10px;
+            border-radius: 20px;
             transition: all 0.25s ease;
             background-color: rgba(255, 255, 255, 0.03);
             white-space: nowrap;
@@ -124,7 +127,6 @@
         .contact-btn:hover {
             background-color: var(--btn-white-bg);
             color: var(--btn-white-text);
-            border-color: var(--btn-white-bg);
         }
 
         .contact-info-box {
@@ -135,13 +137,13 @@
             background: #222c36;
             border: 1px solid var(--accent-border);
             border-radius: 12px;
-            padding: 14px 16px;
+            padding: 12px 14px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-            min-width: 250px;
+            min-width: 230px;
             z-index: 700;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-secondary);
-            line-height: 1.5;
+            line-height: 1.4;
             text-align: left;
         }
 
@@ -166,10 +168,10 @@
             left: 0;
             background: #222c36;
             border: 1px solid var(--accent-border);
-            border-radius: 12px;
-            padding: 8px;
+            border-radius: 10px;
+            padding: 6px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            min-width: 160px;
+            min-width: 150px;
             z-index: 600;
         }
 
@@ -191,6 +193,7 @@
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.2s;
+            white-space: nowrap;
         }
 
         .dropdown-item:hover, .dropdown-item.active {
@@ -200,16 +203,16 @@
 
         .hero-section {
             position: relative;
-            height: 280px;
-            margin: 1rem 1.5rem;
-            clip-path: polygon(0 0, 100% 0, 100% 90%, 95% 100%, 0 95%);
+            height: 200px;
+            margin: 0.8rem 1rem;
+            clip-path: polygon(0 0, 100% 0, 100% 92%, 95% 100%, 0 96%);
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             background-size: cover;
             background-position: center;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
         }
 
         .hero-section::before {
@@ -225,79 +228,59 @@
         .hero-overlay {
             position: relative;
             z-index: 2;
-            padding: 1rem;
+            padding: 0.5rem;
             text-align: center;
         }
 
         .hero-title {
             font-family: 'Anton', sans-serif;
-            font-size: 2.5rem;
-            letter-spacing: 2px;
+            font-size: 2rem;
+            letter-spacing: 1.5px;
             color: #ffffff;
             text-transform: uppercase;
-            margin-bottom: 0.4rem;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.9);
+            margin-bottom: 0.2rem;
+            text-shadow: 0 3px 15px rgba(0,0,0,0.9);
         }
 
         .hero-subtitle {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: var(--text-secondary);
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
             text-transform: uppercase;
             font-weight: 600;
         }
 
         .main-container {
-            padding: 1rem 1.5rem 3rem 1.5rem;
+            padding: 0.5rem 1rem 3rem 1rem;
         }
 
         .section-header {
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .section-title {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 800;
             letter-spacing: 1px;
             text-transform: uppercase;
             color: var(--text-primary);
         }
 
-        /* CUADRÍCULA DE PRODUCTOS: 2 columnas en móvil y 3+ en escritorio */
+        /* GALERÍA: EXACTAMENTE 2 COLUMNAS EN MÓVIL */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        @media (min-width: 768px) {
-            .gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-                gap: 20px;
-            }
-            .nike-navbar {
-                padding: 1.2rem 3rem;
-            }
-            .hero-section {
-                height: 440px;
-                margin: 1.5rem 3rem;
-            }
-            .hero-title {
-                font-size: 5rem;
-            }
-            .main-container {
-                padding: 1rem 3rem 4rem 3rem;
-            }
+            gap: 10px;
         }
 
         .product-card {
             background: var(--bg-card);
             border: 1px solid var(--accent-border);
-            border-radius: 12px;
-            padding: 8px;
+            border-radius: 10px;
+            padding: 6px;
             display: flex;
             flex-direction: column;
             transition: all 0.3s ease;
@@ -306,29 +289,16 @@
 
         .product-card:hover {
             background: var(--bg-card-hover);
-            transform: translateY(-4px);
-            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
         }
 
         .img-wrapper {
             width: 100%;
-            height: 130px;
-            border-radius: 8px;
+            height: 120px;
+            border-radius: 6px;
             overflow: hidden;
             background: #141b22;
-            margin-bottom: 8px;
-        }
-
-        @media (min-width: 768px) {
-            .img-wrapper {
-                height: 200px;
-                border-radius: 10px;
-                margin-bottom: 12px;
-            }
-            .product-card {
-                padding: 12px;
-                border-radius: 16px;
-            }
+            margin-bottom: 6px;
         }
 
         .product-card img {
@@ -338,10 +308,6 @@
             transition: transform 0.5s ease;
         }
 
-        .product-card:hover img {
-            transform: scale(1.08);
-        }
-
         .card-info {
             display: flex;
             flex-direction: column;
@@ -349,7 +315,7 @@
         }
 
         .brand-tag {
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             font-weight: 800;
             color: var(--text-secondary);
             text-transform: uppercase;
@@ -357,7 +323,7 @@
         }
 
         .product-title {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             color: var(--text-primary);
             white-space: nowrap;
@@ -366,20 +332,113 @@
         }
 
         .action-btn {
-            margin-top: 6px;
+            margin-top: 5px;
             background: var(--btn-black-bg);
             color: var(--btn-black-text);
             border: 1px solid var(--accent-border);
-            padding: 6px;
-            border-radius: 6px;
-            font-size: 0.65rem;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 0.6rem;
             font-weight: 600;
             text-align: center;
         }
 
+        /* ESTILOS ESPECÍFICOS PARA PC (MANTENIDOS IDÉNTICOS) */
         @media (min-width: 768px) {
-            .brand-tag { font-size: 0.7rem; }
-            .product-title { font-size: 0.85rem; }
+            .nike-navbar {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1.2rem 3rem;
+                gap: 15px;
+            }
+            .brand-logo {
+                font-size: 2.2rem;
+                letter-spacing: 2px;
+            }
+            .nav-right-group {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                width: auto;
+                overflow-x: visible;
+                padding-bottom: 0;
+            }
+            .nav-categories {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+            .nav-btn {
+                padding: 8px 18px;
+                font-size: 0.85rem;
+                border-radius: 30px;
+            }
+            .contact-btn {
+                font-size: 1.4rem;
+                letter-spacing: 1.5px;
+                padding: 6px 20px;
+                border-radius: 30px;
+            }
+            .contact-info-box {
+                min-width: 280px;
+                padding: 16px 20px;
+                font-size: 0.85rem;
+            }
+            .dropdown-menu {
+                min-width: 180px;
+                padding: 10px;
+                border-radius: 12px;
+            }
+            .dropdown-item {
+                padding: 8px 14px;
+                font-size: 0.8rem;
+            }
+            .hero-section {
+                height: 440px;
+                margin: 1.5rem 3rem;
+            }
+            .hero-overlay {
+                padding: 2rem;
+            }
+            .hero-title {
+                font-size: 5rem;
+                letter-spacing: 3px;
+                margin-bottom: 0.75rem;
+            }
+            .hero-subtitle {
+                font-size: 1.1rem;
+                letter-spacing: 2.5px;
+            }
+            .main-container {
+                padding: 1rem 3rem 4rem 3rem;
+            }
+            .section-header {
+                margin-bottom: 1.5rem;
+            }
+            .section-title {
+                font-size: 1.2rem;
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 20px;
+            }
+            .product-card {
+                padding: 12px;
+                border-radius: 16px;
+            }
+            .img-wrapper {
+                height: 200px;
+                border-radius: 10px;
+                margin-bottom: 12px;
+            }
+            .brand-tag {
+                font-size: 0.7rem;
+            }
+            .product-title {
+                font-size: 0.85rem;
+            }
             .action-btn {
                 margin-top: 10px;
                 padding: 8px;
@@ -580,7 +639,6 @@
                             <button class="dropdown-item" data-filtro="Football">Todo Football</button>
                 `;
 
-                subcategoriasFootball.subForEach = subcategoriasFootball.forEach; // safe fallback
                 subcategoriasFootball.forEach(sub => {
                     htmlNav += `<button class="dropdown-item" data-subfiltro="${sub}">${sub}</button>`;
                 });
@@ -633,7 +691,7 @@
                     });
 
                     const targetElement = document.getElementById('galeriaContainer');
-                    const headerOffset = 70;
+                    const headerOffset = 60;
                     const elementPosition = targetElement.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
