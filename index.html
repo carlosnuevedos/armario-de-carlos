@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock Carlos | Catálogo Oficial</title>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Black+Ops+One&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
@@ -33,48 +33,47 @@
             min-height: 100vh;
         }
 
-        /* NAVBAR MÓVIL: LOGO + CONTACTO ARRIBA, CATEGORÍAS DEBAJO */
-        .nike-navbar {
-            display: flex;
-            flex-direction: column;
-            padding: 0.6rem 0.8rem;
+        /* CABECERA MÓVIL: TÍTULO ARRIBA (DESAPARECE AL BAJAR), BARRA DE CATEGORÍAS + CONTACTO FIJA */
+        .header-container {
+            width: 100%;
             background: rgba(26, 34, 42, 0.95);
             backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--accent-border);
             position: sticky;
             top: 0;
             z-index: 500;
-            border-bottom: 1px solid var(--accent-border);
-            gap: 6px;
         }
 
-        .nav-top-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
+        .brand-top-bar {
+            padding: 0.6rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .brand-logo {
             font-family: 'Anton', sans-serif;
-            font-size: 1.3rem;
-            letter-spacing: 1px;
+            font-size: 1.5rem;
+            letter-spacing: 1.5px;
             color: var(--text-primary);
             text-transform: uppercase;
             line-height: 1;
         }
 
-        .nav-right-group {
+        /* BARRA INFERIOR DE LA NAVBAR: CATEGORÍAS + CONTACTO FIJO */
+        .nav-bar-row {
             display: flex;
             align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 0.8rem;
+            gap: 10px;
         }
 
-        /* CATEGORÍAS DEBAJO EN FORMATO DESLIZABLE HORIZONTAL */
         .nav-categories {
             display: flex;
             align-items: center;
             gap: 6px;
             overflow-x: auto;
-            width: 100%;
+            flex-grow: 1;
             padding-bottom: 2px;
         }
 
@@ -109,6 +108,7 @@
 
         .contact-dropdown-container {
             position: relative;
+            flex-shrink: 0;
         }
 
         .contact-btn {
@@ -116,7 +116,7 @@
             border: 1px solid var(--accent-border);
             color: var(--text-primary);
             font-family: 'Anton', sans-serif;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             letter-spacing: 0.8px;
             text-transform: uppercase;
             cursor: pointer;
@@ -206,8 +206,8 @@
 
         .hero-section {
             position: relative;
-            height: 170px;
-            margin: 0.6rem 0.8rem;
+            height: 160px;
+            margin: 0.5rem 0.8rem;
             clip-path: polygon(0 0, 100% 0, 100% 92%, 95% 100%, 0 96%);
             overflow: hidden;
             display: flex;
@@ -237,7 +237,7 @@
 
         .hero-title {
             font-family: 'Anton', sans-serif;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             letter-spacing: 1px;
             color: #ffffff;
             text-transform: uppercase;
@@ -246,7 +246,7 @@
         }
 
         .hero-subtitle {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             color: var(--text-secondary);
             letter-spacing: 0.8px;
             text-transform: uppercase;
@@ -272,7 +272,7 @@
             color: var(--text-primary);
         }
 
-        /* GALERÍA: EXACTAMENTE 2 COLUMNAS EN MÓVIL */
+        /* GALERÍA: 2 COLUMNAS EN MÓVIL */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -348,23 +348,25 @@
 
         /* VERSIÓN PC (INALTERADA Y PERFECTA) */
         @media (min-width: 768px) {
-            .nike-navbar {
-                flex-direction: row;
+            .header-container {
+                display: flex;
                 justify-content: space-between;
                 align-items: center;
                 padding: 1.2rem 3rem;
                 gap: 15px;
             }
-            .nav-top-row {
-                width: auto;
+            .brand-top-bar {
+                padding: 0;
+                border-bottom: none;
             }
             .brand-logo {
                 font-size: 2.2rem;
                 letter-spacing: 2px;
             }
-            .nav-right-group {
+            .nav-bar-row {
+                padding: 0;
+                gap: 20px;
                 width: auto;
-                overflow-x: visible;
             }
             .nav-categories {
                 display: flex;
@@ -372,6 +374,7 @@
                 gap: 10px;
                 flex-wrap: wrap;
                 width: auto;
+                overflow-x: visible;
             }
             .nav-btn {
                 padding: 8px 18px;
@@ -504,9 +507,19 @@
 </head>
 <body>
 
-    <header class="nike-navbar">
-        <div class="nav-top-row">
+    <!-- CABECERA ADAPTABLE -->
+    <header class="header-container">
+        <!-- TÍTULO ARRIBA (Desaparece al hacer scroll hacia abajo en móvil) -->
+        <div class="brand-top-bar">
             <div class="brand-logo">Stock Carlos</div>
+        </div>
+        
+        <!-- BARRA INFERIOR: CATEGORÍAS + CONTACTO FIJO -->
+        <div class="nav-bar-row">
+            <nav class="nav-categories" id="navCategories">
+                <button class="nav-btn active" data-filtro="todos">Todas</button>
+            </nav>
+
             <div class="contact-dropdown-container">
                 <button class="contact-btn" id="contactToggleBtn">Contacto</button>
                 <div class="contact-info-box" id="contactInfoBox">
@@ -514,12 +527,6 @@
                     Teléfono: <span>655 12 11 74</span>
                 </div>
             </div>
-        </div>
-        
-        <div class="nav-right-group">
-            <nav class="nav-categories" id="navCategories">
-                <button class="nav-btn active" data-filtro="todos">Todas</button>
-            </nav>
         </div>
     </header>
 
@@ -666,7 +673,7 @@
         }
 
         function activarFiltros() {
-            const buttons = document.querySelectorAll('.nike-navbar .nav-btn, .nike-navbar .dropdown-item');
+            const buttons = document.querySelectorAll('.header-container .nav-btn, .header-container .dropdown-item');
             const cards = document.querySelectorAll('.product-card');
 
             buttons.forEach(button => {
