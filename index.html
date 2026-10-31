@@ -140,11 +140,11 @@
             border-radius: 12px;
             padding: 12px 14px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-            min-width: 220px;
+            min-width: 230px;
             z-index: 700;
             font-size: 0.75rem;
             color: var(--text-secondary);
-            line-height: 1.4;
+            line-height: 1.6;
             text-align: left;
         }
 
@@ -152,9 +152,17 @@
             display: block;
         }
 
-        .contact-info-box span {
+        /* ESTILOS PARA LOS ENLACES INTERACTIVOS DE CONTACTO */
+        .contact-link {
             color: var(--text-primary);
             font-weight: 600;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: color 0.2s ease;
+        }
+
+        .contact-link:hover {
+            color: #38ef7d; /* Color verdoso/destacado al pasar el ratón */
         }
 
         .dropdown-container {
@@ -517,8 +525,8 @@
             <div class="contact-dropdown-container">
                 <button class="contact-btn" id="contactToggleBtn">Contacto</button>
                 <div class="contact-info-box" id="contactInfoBox">
-                    E-mail: <span>carlosnuevedos@gmail.com</span><br>
-                    Teléfono: <span>655 12 11 74</span>
+                    E-mail: <a href="mailto:carlosnuevedos@gmail.com" class="contact-link">carlosnuevedos@gmail.com</a><br>
+                    WhatsApp: <a href="https://wa.me/34655121174" target="_blank" class="contact-link">655 12 11 74</a>
                 </div>
             </div>
         </div>
@@ -722,3 +730,21 @@
 
                     window.scrollTo({
                         top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        }
+
+        function activarModal() {
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    modal.style.display = 'flex';
+                    modalImg.src = card.getAttribute('data-src');
+                    modalCaption.textContent = card.getAttribute('data-titulo');
+                });
+            });
+
+            closeModalBtn.addEventListener('click', () => modal.style.display = 'none');
+            modal.addEventListener('click', (e) => { if (
