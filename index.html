@@ -37,12 +37,15 @@
             min-height: 100vh;
         }
 
-        /* CONTENEDOR GENERAL DE LA CABECERA (SUBE Y DESAPARECE) */
+        /* CABECERA CON Z-INDEX MÁS ALTO PARA QUE NADA LA TAPE */
         .header-container {
             width: 100%;
             background: rgba(26, 34, 42, 0.98);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--accent-border);
+            position: sticky;
+            top: 0;
+            z-index: 9999;
         }
 
         .brand-top-bar {
@@ -60,19 +63,12 @@
             line-height: 1;
         }
 
-        /* BARRA DE CATEGORÍAS Y CONTACTO: ESTA ES LA QUE SE QUEDA FIJA EN EL TOP */
         .nav-bar-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0.4rem 0.6rem;
             gap: 8px;
-            background: rgba(26, 34, 42, 0.98);
-            backdrop-filter: blur(12px);
-            position: sticky;
-            top: 0;
-            z-index: 9999;
-            border-bottom: 1px solid var(--accent-border);
         }
 
         .nav-categories {
@@ -141,7 +137,7 @@
             color: var(--btn-white-text);
         }
 
-        /* CAJA DE CONTACTO FLOTANDO POR ENCIMA DE TODO */
+        /* CAJA DE CONTACTO CON Z-INDEX MÁXIMO PARA QUE FLOTE POR ENCIMA DEL HERO BANNER */
         .contact-info-box {
             display: none;
             position: absolute;
@@ -233,7 +229,7 @@
             background-size: cover;
             background-position: center;
             box-shadow: 0 6px 12px rgba(0,0,0,0.4);
-            z-index: 1;
+            z-index: 1; /* Por debajo de la cabecera */
         }
 
         .hero-section::before {
@@ -390,8 +386,6 @@
                 padding: 0;
                 gap: 20px;
                 width: auto;
-                position: static;
-                border-bottom: none;
             }
             .nav-categories {
                 display: flex;
