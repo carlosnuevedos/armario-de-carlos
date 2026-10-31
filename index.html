@@ -33,7 +33,7 @@
             min-height: 100vh;
         }
 
-        /* CABECERA MÓVIL: TÍTULO ARRIBA (DESAPARECE AL BAJAR), BARRA DE CATEGORÍAS + CONTACTO FIJA */
+        /* CABECERA MÓVIL: TÍTULO ARRIBA, BARRA DE CATEGORÍAS + CONTACTO FIJA */
         .header-container {
             width: 100%;
             background: rgba(26, 34, 42, 0.95);
@@ -272,18 +272,18 @@
             color: var(--text-primary);
         }
 
-        /* GALERÍA: 2 COLUMNAS EN MÓVIL */
+        /* GALERÍA: 3 COLUMNAS COMPACTAS EN MÓVIL */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
         }
 
         .product-card {
             background: var(--bg-card);
             border: 1px solid var(--accent-border);
-            border-radius: 8px;
-            padding: 5px;
+            border-radius: 6px;
+            padding: 4px;
             display: flex;
             flex-direction: column;
             transition: all 0.3s ease;
@@ -297,11 +297,11 @@
 
         .img-wrapper {
             width: 100%;
-            height: 110px;
-            border-radius: 5px;
+            height: 90px;
+            border-radius: 4px;
             overflow: hidden;
             background: #141b22;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .product-card img {
@@ -314,19 +314,19 @@
         .card-info {
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 1px;
         }
 
         .brand-tag {
-            font-size: 0.5rem;
+            font-size: 0.45rem;
             font-weight: 800;
             color: var(--text-secondary);
             text-transform: uppercase;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.3px;
         }
 
         .product-title {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             font-weight: 600;
             color: var(--text-primary);
             white-space: nowrap;
@@ -335,13 +335,13 @@
         }
 
         .action-btn {
-            margin-top: 4px;
+            margin-top: 3px;
             background: var(--btn-black-bg);
             color: var(--btn-black-text);
             border: 1px solid var(--accent-border);
-            padding: 4px;
-            border-radius: 4px;
-            font-size: 0.55rem;
+            padding: 3px;
+            border-radius: 3px;
+            font-size: 0.5rem;
             font-weight: 600;
             text-align: center;
         }
@@ -517,7 +517,7 @@
         <!-- BARRA INFERIOR: CATEGORÍAS + CONTACTO FIJO -->
         <div class="nav-bar-row">
             <nav class="nav-categories" id="navCategories">
-                <button class="nav-btn active" data-filtro="todos">Todas</button>
+                <!-- Se construye dinámicamente con JS -->
             </nav>
 
             <div class="contact-dropdown-container">
@@ -633,31 +633,54 @@
             }
         }
 
-        function construirNavbar(categorias, subcategoriasFootball) {
-            let htmlNav = `<button class="nav-btn active" data-filtro="todos">Todas</button>`;
+        function construirNavbar(categoriasExistentes, subcategoriasFootball) {
+            // ORDEN PERSONALIZADO SOLICITADO
+            const ordenPersonalizado = [
+                "Adidas",
+                "Nike",
+                "New Balance",
+                "Football",
+                "Converse",
+                "Vans",
+                "On Running",
+                "Ugg",
+                "Veja",
+                "Hoka",
+                "Brooks",
+                "Otras",
+                "Todas"
+            ];
 
-            categorias.forEach(cat => {
-                if (cat.toLowerCase() !== 'football') {
+            let htmlNav = "";
+
+            ordenPersonalizado.forEach(cat => {
+                if (cat === "Football") {
+                    if (subcategoriasFootball.size > 0 || Array.from(categoriasExistentes).some(c => c.toLowerCase() === 'football')) {
+                        htmlNav += `
+                            <div class="dropdown-container">
+                                <button class="nav-btn" id="footballBtn" data-filtro="Football">Football ▾</button>
+                                <div class="dropdown-menu">
+                                    <button class="dropdown-item" data-filtro="Football">Todo Football</button>
+                        `;
+
+                        subcategoriasFootball.forEach(sub => {
+                            htmlNav += `<button class="dropdown-item" data-subfiltro="${sub}">${sub}</button>`;
+                        });
+
+                        htmlNav += `</div></div>`;
+                    }
+                } else if (cat === "Todas") {
+                    htmlNav += `<button class="nav-btn" data-filtro="todos">Todas</button>`;
+                } else {
                     htmlNav += `<button class="nav-btn" data-filtro="${cat}">${cat}</button>`;
                 }
             });
 
-            if (subcategoriasFootball.size > 0 || Array.from(categorias).some(c => c.toLowerCase() === 'football')) {
-                htmlNav += `
-                    <div class="dropdown-container">
-                        <button class="nav-btn" id="footballBtn" data-filtro="Football">Football ▾</button>
-                        <div class="dropdown-menu">
-                            <button class="dropdown-item" data-filtro="Football">Todo Football</button>
-                `;
-
-                subcategoriasFootball.forEach(sub => {
-                    htmlNav += `<button class="dropdown-item" data-subfiltro="${sub}">${sub}</button>`;
-                });
-
-                htmlNav += `</div></div>`;
-            }
-
             navCategories.innerHTML = htmlNav;
+
+            // Activar por defecto el primer botón en la lista (Adidas)
+            const primerBoton = navCategories.querySelector('.nav-btn');
+            if (primerBoton) primerBoton.classList.add('active');
         }
 
         function iniciarSlideshowHero() {
@@ -690,7 +713,7 @@
 
                         if (filtroCat === 'todos') {
                             card.style.display = 'flex';
-                        } else if (filtroCat && catCard === filtroCat) {
+                        } else if (filtroCat && catCard.toLowerCase() === filtroCat.toLowerCase()) {
                             card.style.display = 'flex';
                         } else if (filtroCat === 'Football' && (catCard.toLowerCase().includes('football') || subCatCard !== '')) {
                             card.style.display = 'flex';
@@ -702,7 +725,7 @@
                     });
 
                     const targetElement = document.getElementById('galeriaContainer');
-                    const headerOffset = 90;
+                    const headerOffset = 80;
                     const elementPosition = targetElement.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
