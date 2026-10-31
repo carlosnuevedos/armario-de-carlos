@@ -37,18 +37,10 @@
             min-height: 100vh;
         }
 
-        /* CABECERA CON Z-INDEX MÁS ALTO PARA QUE NADA LA TAPE */
-        .header-container {
+        /* 1. TÍTULO SUPERIOR (DESAPARECE AL BAJAR) */
+        .brand-top-bar {
             width: 100%;
             background: rgba(26, 34, 42, 0.98);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--accent-border);
-            position: sticky;
-            top: 0;
-            z-index: 9999;
-        }
-
-        .brand-top-bar {
             padding: 0.5rem 0.8rem;
             text-align: left;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -63,12 +55,20 @@
             line-height: 1;
         }
 
+        /* 2. BARRA DE CATEGORÍAS FIJA EN EL TOP */
         .nav-bar-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0.4rem 0.6rem;
             gap: 8px;
+            width: 100%;
+            background: rgba(26, 34, 42, 0.98);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--accent-border);
+            position: sticky;
+            top: 0;
+            z-index: 9999;
         }
 
         .nav-categories {
@@ -137,7 +137,7 @@
             color: var(--btn-white-text);
         }
 
-        /* CAJA DE CONTACTO CON Z-INDEX MÁXIMO PARA QUE FLOTE POR ENCIMA DEL HERO BANNER */
+        /* CAJA DE CONTACTO FLOTANTE CON MÁXIMA PRIORIDAD */
         .contact-info-box {
             display: none;
             position: absolute;
@@ -149,7 +149,7 @@
             padding: 12px 14px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.8);
             min-width: 220px;
-            z-index: 10001;
+            z-index: 20000;
             font-size: 0.75rem;
             color: var(--text-secondary);
             line-height: 1.6;
@@ -188,7 +188,7 @@
             padding: 6px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.8);
             min-width: 150px;
-            z-index: 10001;
+            z-index: 20000;
         }
 
         .dropdown-container:hover .dropdown-menu,
@@ -229,7 +229,7 @@
             background-size: cover;
             background-position: center;
             box-shadow: 0 6px 12px rgba(0,0,0,0.4);
-            z-index: 1; /* Por debajo de la cabecera */
+            z-index: 1;
         }
 
         .hero-section::before {
@@ -365,17 +365,11 @@
             text-align: center;
         }
 
-        /* VERSIÓN PC (INALTERADA) */
+        /* VERSIÓN PC */
         @media (min-width: 768px) {
-            .header-container {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 1.2rem 3rem;
-                gap: 15px;
-            }
             .brand-top-bar {
-                padding: 0;
+                padding: 1.2rem 3rem 0 3rem;
+                background: transparent;
                 border-bottom: none;
             }
             .brand-logo {
@@ -383,9 +377,12 @@
                 letter-spacing: 2px;
             }
             .nav-bar-row {
-                padding: 0;
+                padding: 1rem 3rem;
                 gap: 20px;
-                width: auto;
+                position: static;
+                background: rgba(26, 34, 42, 0.95);
+                backdrop-filter: blur(12px);
+                border-bottom: 1px solid var(--accent-border);
             }
             .nav-categories {
                 display: flex;
@@ -478,7 +475,7 @@
             inset: 0;
             background-color: rgba(14, 18, 23, 0.92);
             backdrop-filter: blur(10px);
-            z-index: 20000;
+            z-index: 30000;
             justify-content: center;
             align-items: center;
             flex-direction: column;
@@ -526,24 +523,24 @@
 </head>
 <body>
 
-    <header class="header-container">
-        <div class="brand-top-bar">
-            <div class="brand-logo">Stock Carlos</div>
-        </div>
-        
-        <div class="nav-bar-row">
-            <nav class="nav-categories" id="navCategories">
-            </nav>
+    <!-- 1. TÍTULO SUPERIOR (AHORA SEPARADO Y LIBRE PARA DESAPARECER AL BAJAR) -->
+    <div class="brand-top-bar">
+        <div class="brand-logo">Stock Carlos</div>
+    </div>
+    
+    <!-- 2. BARRA DE CATEGORÍAS Y CONTACTO (AHORA INDEPENDIENTE Y FIJA ARRIBA) -->
+    <div class="nav-bar-row">
+        <nav class="nav-categories" id="navCategories">
+        </nav>
 
-            <div class="contact-dropdown-container">
-                <button class="contact-btn" id="contactToggleBtn" type="button">Contacto</button>
-                <div class="contact-info-box" id="contactInfoBox">
-                    E-mail: <a href="mailto:carlosnuevedos@gmail.com" class="contact-link">carlosnuevedos@gmail.com</a><br>
-                    WhatsApp: <a href="https://wa.me/34655121174" target="_blank" class="contact-link">655 12 11 74</a>
-                </div>
+        <div class="contact-dropdown-container">
+            <button class="contact-btn" id="contactToggleBtn" type="button">Contacto</button>
+            <div class="contact-info-box" id="contactInfoBox">
+                E-mail: <a href="mailto:carlosnuevedos@gmail.com" class="contact-link">carlosnuevedos@gmail.com</a><br>
+                WhatsApp: <a href="https://wa.me/34655121174" target="_blank" class="contact-link">655 12 11 74</a>
             </div>
         </div>
-    </header>
+    </div>
 
     <section class="hero-section" id="heroBanner">
         <div class="hero-overlay">
@@ -715,7 +712,7 @@
             }
 
             function activarFiltros() {
-                const buttons = document.querySelectorAll('.header-container .nav-btn, .header-container .dropdown-item');
+                const buttons = document.querySelectorAll('.nav-bar-row .nav-btn, .nav-bar-row .dropdown-item');
                 const cards = document.querySelectorAll('.product-card');
 
                 buttons.forEach(button => {
