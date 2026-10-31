@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Carlos | Catálogo Oficial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Black+Ops+One&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-antracita: #1a222a;
+            --bg-card: #222c36;
+            --bg-card-hover: #2b3744;
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --btn-white-bg: #ffffff;
+            --btn-white-text: #0f172a;
+            --btn-black-bg: #000000;
+            --btn-black-text: #ffffff;
+            --accent-border: rgba(255, 255, 255, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(90deg, #161e26 0%, var(--bg-antracita) 15%, var(--bg-antracita) 85%, #161e26 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .nike-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 3rem;
+            background: rgba(26, 34, 42, 0.85);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 500;
+            border-bottom: 1px solid var(--accent-border);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .brand-logo {
+            font-family: 'Anton', sans-serif;
+            font-size: 2.2rem;
+            letter-spacing: 2px;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            line-height: 1;
+        }
+
+        .nav-right-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-categories {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-secondary);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .nav-btn:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-btn.active {
+            background-color: var(--btn-white-bg);
+            color: var(--btn-white-text);
+            font-weight: 800;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-dropdown-container {
+            position: relative;
+        }
+
+        .contact-btn {
+            background: transparent;
+            border: 1px solid var(--accent-border);
+            color: var(--text-primary);
+            font-family: 'Anton', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            padding: 6px 20px;
+            border-radius: 30px;
+            transition: all 0.25s ease;
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        .contact-btn:hover {
+            background-color: var(--btn-white-bg);
+            color: var(--btn-white-text);
+            border-color: var(--btn-white-bg);
+            box-shadow: 0 4px 15px rgba(255,255,255,0.2);
+        }
+
+        .contact-info-box {
+            display: none;
+            position: absolute;
+            top: 130%;
+            right: 0;
+            background: #222c36;
+            border: 1px solid var(--accent-border);
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+            min-width: 280px;
+            z-index: 700;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .contact-info-box.show {
+            display: block;
+        }
+
+        .contact-info-box span {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 120%;
+            left: 0;
+            background: #222c36;
+            border: 1px solid var(--accent-border);
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            min-width: 180px;
+            z-index: 600;
+        }
+
+        .dropdown-container:hover .dropdown-menu,
+        .dropdown-menu.show {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .dropdown-item {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            text-align: left;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .dropdown-item:hover, .dropdown-item.active {
+            background: var(--btn-white-bg);
+            color: var(--btn-white-text);
+        }
+
+        .hero-section {
+            position: relative;
+            height: 440px;
+            margin: 1.5rem 3rem;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 95% 100%, 0 92%);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 1.2s ease-in-out;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            background: rgba(18, 24, 30, 0.65);
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+            max-width: 950px;
+        }
+
+        .hero-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 5rem;
+            letter-spacing: 3px;
+            color: #ffffff;
+            text-transform: uppercase;
+            line-height: 1.05;
+            text-shadow: 0 5px 30px rgba(0,0,0,0.9);
+            margin-bottom: 0.75rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .main-container {
+            padding: 1rem 3rem 4rem 3rem;
+        }
+
+        .section-header {
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-primary);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            border: 1px solid var(--accent-border);
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-6px);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+        }
+
+        .img-wrapper {
+            width: 100%;
+            height: 200px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #141b22;
+            margin-bottom: 12px;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .brand-tag {
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .product-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .action-btn {
+            margin-top: 10px;
+            background: var(--btn-black-bg);
+            color: var(--btn-black-text);
+            border: 1px solid var(--accent-border);
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .product-card:hover .action-btn {
+            background: var(--btn-white-bg);
+            color: var(--btn-white-text);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: rgba(14, 18, 23, 0.92);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 2rem;
+        }
+
+        .modal-content {
+            max-width: 85%;
+            max-height: 75vh;
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            object-fit: contain;
+        }
+
+        .modal-caption {
+            color: var(--text-primary);
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            color: var(--text-primary);
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .close-modal:hover {
+            opacity: 0.7;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2.5rem;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--accent-border);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="nike-navbar">
+        <div class="brand-logo">Stock Carlos</div>
+        
+        <div class="nav-right-group">
+            <nav class="nav-categories" id="navCategories">
+                <button class="nav-btn active" data-filtro="todos">Todas</button>
+            </nav>
+
+            <div class="contact-dropdown-container">
+                <button class="contact-btn" id="contactToggleBtn">Contáctame</button>
+                <div class="contact-info-box" id="contactInfoBox">
+                    E-mail: <span>carlosnuevedos@gmail.com</span><br>
+                    Teléfono: <span>655 12 11 74</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-section" id="heroBanner">
+        <div class="hero-overlay">
+            <h1 class="hero-title">¡PREGUNTA POR TU TALLA!</h1>
+            <p class="hero-subtitle">Catálogo oficial exclusivo • Stock en tiempo real</p>
+        </div>
+    </section>
+
+    <!-- GALERÍA DE PRODUCTOS (Anclaje añadido aquí) -->
+    <main class="main-container" id="galeriaContainer">
+        <div class="section-header">
+            <span class="section-title">Novedades y catálogo</span>
+        </div>
+        <div class="gallery-grid" id="galeria"></div>
+    </main>
+
+    <div id="imageModal" class="modal">
+        <span class="close-modal" id="closeModalBtn">&times;</span>
+        <img class="modal-content" id="modalImg">
+        <div class="modal-caption" id="modalCaption"></div>
+    </div>
+
+    <footer>
+        <p>© Stock Carlos - Catálogo Académico</p>
+    </footer>
+
+    <script>
+        const galeria = document.getElementById('galeria');
+        const navCategories = document.getElementById('navCategories');
+        const heroBanner = document.getElementById('heroBanner');
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalCaption = document.getElementById('modalCaption');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+
+        const contactToggleBtn = document.getElementById('contactToggleBtn');
+        const contactInfoBox = document.getElementById('contactInfoBox');
+
+        contactToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            contactInfoBox.classList.toggle('show');
+        });
+
+        document.addEventListener('click', () => {
+            contactInfoBox.classList.remove('show');
+        });
+
+        let listaImagenesGlobal = [];
+
+        async function cargarCatalogo() {
+            try {
+                const response = await fetch('catalogo_info.json');
+                if (!response.ok) throw new Error('No se pudo cargar el JSON');
+                
+                const data = await response.json();
+                let categoriasPrincipales = new Set();
+                let subcategoriasFootball = new Set();
+                let tarjetasHTML = [];
+
+                for (let [filename, info] of Object.entries(data)) {
+                    const carpeta = info.carpeta || info.marca.toLowerCase().replace(" ", "_");
+                    const rutaImg = `fotos_yupoo/${carpeta}/${filename}`;
+                    
+                    listaImagenesGlobal.push(rutaImg);
+
+                    let esFootball = carpeta.toLowerCase().includes('football');
+                    let subCatFootball = '';
+
+                    if (esFootball) {
+                        const partes = carpeta.split('/');
+                        if (partes.length > 1) {
+                            subCatFootball = partes[partes.length - 1].replace(/_/g, ' ').toUpperCase();
+                            subcategoriasFootball.add(subCatFootball);
+                        }
+                    } else {
+                        categoriasPrincipales.add(info.marca);
+                    }
+
+                    tarjetasHTML.push(`
+                        <div class="product-card" data-categoria="${info.marca}" data-subcat="${subCatFootball}" data-src="${rutaImg}" data-titulo="${info.titulo}">
+                            <div class="img-wrapper">
+                                <img src="${rutaImg}" alt="${info.titulo}" loading="lazy">
+                            </div>
+                            <div class="card-info">
+                                <span class="brand-tag">${info.marca}</span>
+                                <span class="product-title">${info.titulo}</span>
+                                <div class="action-btn">Ver producto</div>
+                            </div>
+                        </div>
+                    `);
+                }
+
+                galeria.innerHTML = tarjetasHTML.join('');
+
+                construirNavbar(categoriasPrincipales, subcategoriasFootball);
+                iniciarSlideshowHero();
+                activarFiltros();
+                activarModal();
+
+            } catch (error) {
+                console.error(error);
+                galeria.innerHTML = "<p style='text-align:center; grid-column: 1/-1; padding: 2rem;'>Error al cargar <code>catalogo_info.json</code>. Revisa el servidor local.</p>";
+            }
+        }
+
+        function construirNavbar(categorias, subcategoriasFootball) {
+            let htmlNav = `<button class="nav-btn active" data-filtro="todos">Todas</button>`;
+
+            categorias.forEach(cat => {
+                if (cat.toLowerCase() !== 'football') {
+                    htmlNav += `<button class="nav-btn" data-filtro="${cat}">${cat}</button>`;
+                }
+            });
+
+            if (subcategoriasFootball.size > 0 || Array.from(categorias).some(c => c.toLowerCase() === 'football')) {
+                htmlNav += `
+                    <div class="dropdown-container">
+                        <button class="nav-btn" id="footballBtn" data-filtro="Football">Football ▾</button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item" data-filtro="Football">Todo Football</button>
+                `;
+
+                subcategoriasFootball.forEach(sub => {
+                    htmlNav += `<button class="dropdown-item" data-subfiltro="${sub}">${sub}</button>`;
+                });
+
+                htmlNav += `</div></div>`;
+            }
+
+            navCategories.innerHTML = htmlNav;
+        }
+
+        function iniciarSlideshowHero() {
+            if (listaImagenesGlobal.length === 0) return;
+
+            setInterval(() => {
+                const randomIndex = Math.floor(Math.random() * listaImagenesGlobal.length);
+                heroBanner.style.backgroundImage = `url('${listaImagenesGlobal[randomIndex]}')`;
+            }, 4500);
+
+            const initialIndex = Math.floor(Math.random() * listaImagenesGlobal.length);
+            heroBanner.style.backgroundImage = `url('${listaImagenesGlobal[initialIndex]}')`;
+        }
+
+        function activarFiltros() {
+            const buttons = document.querySelectorAll('.nike-navbar .nav-btn, .nike-navbar .dropdown-item');
+            const cards = document.querySelectorAll('.product-card');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    const filtroCat = button.getAttribute('data-filtro');
+                    const filtroSubCat = button.getAttribute('data-subfiltro');
+
+                    cards.forEach(card => {
+                        const catCard = card.getAttribute('data-categoria');
+                        const subCatCard = card.getAttribute('data-subcat');
+
+                        if (filtroCat === 'todos') {
+                            card.style.display = 'flex';
+                        } else if (filtroCat && catCard === filtroCat) {
+                            card.style.display = 'flex';
+                        } else if (filtroCat === 'Football' && (catCard.toLowerCase().includes('football') || subCatCard !== '')) {
+                            card.style.display = 'flex';
+                        } else if (filtroSubCat && subCatCard === filtroSubCat) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+
+                    // DESPLAZAMIENTO SUAVE HASTA EL INICIO DE LA GALERÍA
+                    const targetElement = document.getElementById('galeriaContainer');
+                    const headerOffset = 90; // Deja un pequeño margen respecto a la barra superior pegajosa
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        }
+
+        function activarModal() {
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    modal.style.display = 'flex';
+                    modalImg.src = card.getAttribute('data-src');
+                    modalCaption.textContent = card.getAttribute('data-titulo');
+                });
+            });
+
+            closeModalBtn.addEventListener('click', () => modal.style.display = 'none');
+            modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') modal.style.display = 'none'; });
+        }
+
+        cargarCatalogo();
+    </script>
+</body>
+</html>
