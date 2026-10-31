@@ -37,15 +37,12 @@
             min-height: 100vh;
         }
 
-        /* CABECERA COMPLETA: TÍTULO ARRIBA + BARRA DE CATEGORÍAS FIJA AL DESLIZAR */
+        /* ESTRUCTURA DE CABECERA: TÍTULO ARRIBA (SE OCULTA AL BAJAR), BARRA DE CATEGORÍAS FIJA */
         .header-container {
             width: 100%;
             background: rgba(26, 34, 42, 0.98);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--accent-border);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
         }
 
         .brand-top-bar {
@@ -63,12 +60,18 @@
             line-height: 1;
         }
 
+        /* BARRA INFERIOR DE LA NAVBAR: FIJA AL HACER SCROLL EN MÓVIL */
         .nav-bar-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0.4rem 0.6rem;
             gap: 8px;
+            background: rgba(26, 34, 42, 0.98);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--accent-border);
         }
 
         .nav-categories {
@@ -362,7 +365,7 @@
             text-align: center;
         }
 
-        /* VERSIÓN PC (INALTERADA) */
+        /* VERSIÓN PC (INALTERADA Y ADAPTADA) */
         @media (min-width: 768px) {
             .header-container {
                 display: flex;
@@ -383,6 +386,8 @@
                 padding: 0;
                 gap: 20px;
                 width: auto;
+                position: static;
+                border-bottom: none;
             }
             .nav-categories {
                 display: flex;
@@ -523,7 +528,7 @@
 </head>
 <body>
 
-    <!-- CABECERA: TÍTULO ARRIBA + BARRA DE CATEGORÍAS/CONTACTO FIJA -->
+    <!-- CABECERA: TÍTULO ARRIBA (DESAPARECE AL BAJAR) + BARRA DE CATEGORÍAS/CONTACTO FIJA -->
     <header class="header-container">
         <div class="brand-top-bar">
             <div class="brand-logo">Stock Carlos</div>
