@@ -33,7 +33,6 @@
             min-height: 100vh;
         }
 
-        /* CABECERA MÓVIL: TÍTULO ARRIBA, BARRA DE CATEGORÍAS + CONTACTO FIJA */
         .header-container {
             width: 100%;
             background: rgba(26, 34, 42, 0.95);
@@ -59,7 +58,6 @@
             line-height: 1;
         }
 
-        /* BARRA INFERIOR DE LA NAVBAR: CATEGORÍAS + CONTACTO FIJO */
         .nav-bar-row {
             display: flex;
             align-items: center;
@@ -272,18 +270,18 @@
             color: var(--text-primary);
         }
 
-        /* GALERÍA: 3 COLUMNAS COMPACTAS EN MÓVIL */
+        /* 2 COLUMNAS EN MÓVIL */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
         }
 
         .product-card {
             background: var(--bg-card);
             border: 1px solid var(--accent-border);
-            border-radius: 6px;
-            padding: 4px;
+            border-radius: 8px;
+            padding: 6px;
             display: flex;
             flex-direction: column;
             transition: all 0.3s ease;
@@ -297,11 +295,11 @@
 
         .img-wrapper {
             width: 100%;
-            height: 90px;
-            border-radius: 4px;
+            height: 130px;
+            border-radius: 6px;
             overflow: hidden;
             background: #141b22;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
         .product-card img {
@@ -314,19 +312,19 @@
         .card-info {
             display: flex;
             flex-direction: column;
-            gap: 1px;
+            gap: 2px;
         }
 
         .brand-tag {
-            font-size: 0.45rem;
+            font-size: 0.6rem;
             font-weight: 800;
             color: var(--text-secondary);
             text-transform: uppercase;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.4px;
         }
 
         .product-title {
-            font-size: 0.6rem;
+            font-size: 0.75rem;
             font-weight: 600;
             color: var(--text-primary);
             white-space: nowrap;
@@ -335,18 +333,18 @@
         }
 
         .action-btn {
-            margin-top: 3px;
+            margin-top: 5px;
             background: var(--btn-black-bg);
             color: var(--btn-black-text);
             border: 1px solid var(--accent-border);
-            padding: 3px;
-            border-radius: 3px;
-            font-size: 0.5rem;
+            padding: 4px;
+            border-radius: 4px;
+            font-size: 0.6rem;
             font-weight: 600;
             text-align: center;
         }
 
-        /* VERSIÓN PC (INALTERADA Y PERFECTA) */
+        /* VERSIÓN PC (INALTERADA) */
         @media (min-width: 768px) {
             .header-container {
                 display: flex;
@@ -507,17 +505,13 @@
 </head>
 <body>
 
-    <!-- CABECERA ADAPTABLE -->
     <header class="header-container">
-        <!-- TÍTULO ARRIBA (Desaparece al hacer scroll hacia abajo en móvil) -->
         <div class="brand-top-bar">
             <div class="brand-logo">Stock Carlos</div>
         </div>
         
-        <!-- BARRA INFERIOR: CATEGORÍAS + CONTACTO FIJO -->
         <div class="nav-bar-row">
             <nav class="nav-categories" id="navCategories">
-                <!-- Se construye dinámicamente con JS -->
             </nav>
 
             <div class="contact-dropdown-container">
@@ -634,7 +628,6 @@
         }
 
         function construirNavbar(categoriasExistentes, subcategoriasFootball) {
-            // ORDEN PERSONALIZADO SOLICITADO
             const ordenPersonalizado = [
                 "Adidas",
                 "Nike",
@@ -677,8 +670,6 @@
             });
 
             navCategories.innerHTML = htmlNav;
-
-            // Activar por defecto el primer botón en la lista (Adidas)
             const primerBoton = navCategories.querySelector('.nav-btn');
             if (primerBoton) primerBoton.classList.add('active');
         }
@@ -731,28 +722,3 @@
 
                     window.scrollTo({
                         top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                });
-            });
-        }
-
-        function activarModal() {
-            const cards = document.querySelectorAll('.product-card');
-            cards.forEach(card => {
-                card.addEventListener('click', () => {
-                    modal.style.display = 'flex';
-                    modalImg.src = card.getAttribute('data-src');
-                    modalCaption.textContent = card.getAttribute('data-titulo');
-                });
-            });
-
-            closeModalBtn.addEventListener('click', () => modal.style.display = 'none');
-            modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
-            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') modal.style.display = 'none'; });
-        }
-
-        cargarCatalogo();
-    </script>
-</body>
-</html>
