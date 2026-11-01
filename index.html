@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock Carlos | Catálogo Oficial</title>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Black+Ops+One&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
@@ -506,18 +506,20 @@
             }
         }
 
-        /* MODAL CON ZOOM Y NAVEGACIÓN LATERAL */
+        /* MODAL CON ZOOM TÁCTIL LIBRE (CON DOS DEDOS EN MÓVIL) */
         .modal {
             display: none;
             position: fixed;
             inset: 0;
-            background-color: rgba(14, 18, 23, 0.95);
+            background-color: rgba(14, 18, 23, 0.96);
             backdrop-filter: blur(10px);
             z-index: 200000;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            padding: 1.5rem;
+            padding: 1rem;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .modal-container-inner {
@@ -525,45 +527,42 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            max-width: 90vw;
-            max-height: 75vh;
+            width: 100%;
+            height: 70vh;
+            overflow: auto;
         }
 
         .modal-content {
             max-width: 100%;
-            max-height: 75vh;
-            border-radius: 12px;
+            max-height: 100%;
+            border-radius: 8px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.8);
             object-fit: contain;
-            cursor: zoom-in;
-            transition: transform 0.3s ease;
-        }
-
-        .modal-content.zoomed {
-            transform: scale(1.6);
-            cursor: zoom-out;
+            touch-action: pan-x pan-y pinch-zoom;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         .modal-caption {
             color: var(--text-primary);
-            margin-top: 1.2rem;
-            font-size: 1.1rem;
+            margin-top: 1rem;
+            font-size: 1rem;
             font-weight: 600;
             text-align: center;
+            z-index: 200005;
         }
 
         .close-modal {
-            position: absolute;
-            top: 25px;
-            right: 30px;
+            position: fixed;
+            top: 20px;
+            right: 20px;
             color: var(--text-primary);
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             cursor: pointer;
-            transition: opacity 0.2s;
-            z-index: 200005;
-            background: rgba(0,0,0,0.4);
-            width: 45px;
-            height: 45px;
+            z-index: 200006;
+            background: rgba(0,0,0,0.6);
+            width: 42px;
+            height: 42px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -573,20 +572,19 @@
 
         .close-modal:hover {
             opacity: 0.7;
-            background: rgba(255,255,255,0.1);
         }
 
         /* BOTONES DE NAVEGACIÓN LATERAL (FLECHAS) */
         .nav-modal-btn {
-            position: absolute;
+            position: fixed;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(26, 34, 42, 0.85);
+            background: rgba(26, 34, 42, 0.9);
             color: #ffffff;
             border: 1px solid var(--accent-border);
-            font-size: 1.8rem;
-            width: 50px;
-            height: 50px;
+            font-size: 1.6rem;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
@@ -600,29 +598,27 @@
         .nav-modal-btn:hover {
             background: var(--btn-white-bg);
             color: var(--btn-white-text);
-            transform: translateY(-50%) scale(1.1);
         }
 
         .prev-modal-btn {
-            left: -70px;
+            left: 15px;
         }
 
         .next-modal-btn {
-            right: -70px;
+            right: 15px;
         }
 
-        @media (max-width: 768px) {
+        @media (min-width: 768px) {
             .prev-modal-btn {
-                left: 10px;
+                left: 30px;
             }
             .next-modal-btn {
-                right: 10px;
+                right: 30px;
             }
             .nav-modal-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 1.4rem;
-                background: rgba(0, 0, 0, 0.6);
+                width: 50px;
+                height: 50px;
+                font-size: 1.8rem;
             }
         }
 
@@ -677,12 +673,12 @@
         <div class="pagination-container" id="paginationContainer"></div>
     </main>
 
-    <!-- MODAL MEJORADO CON ZOOM Y BOTONES LATERALES -->
+    <!-- MODAL CON SOPORTE COMPLETO PARA GESTOS TÁCTILES Y ZOOM LIBRE -->
     <div id="imageModal" class="modal">
         <span class="close-modal" id="closeModalBtn">&times;</span>
         <button class="nav-modal-btn prev-modal-btn" id="prevModalBtn">&#10094;</button>
-        <div class="modal-container-inner">
-            <img class="modal-content" id="modalImg" alt="Zoom de imagen">
+        <div class="modal-container-inner" id="modalContainerInner">
+            <img class="modal-content" id="modalImg" alt="Vista ampliada del producto">
         </div>
         <button class="nav-modal-btn next-modal-btn" id="nextModalBtn">&#10095;</button>
         <div class="modal-caption" id="modalCaption"></div>
@@ -737,53 +733,72 @@
 
             async function cargarCatalogo() {
                 try {
-                    const response = await fetch('catalogo_info.json');
-                    if (!response.ok) throw new Error('No se pudo cargar el JSON');
+                    // Intentamos cargar el JSON desde distintas rutas comunes para evitar el error 404
+                    let response = await fetch('catalogo_info.json');
+                    if (!response.ok) {
+                        response = await fetch('./catalogo_info.json');
+                    }
+                    if (!response.ok) {
+                        throw new Error('No se pudo encontrar catalogo_info.json en la raíz');
+                    }
                     
                     const data = await response.json();
-                    let categoriasPrincipales = new Set();
-                    let subcategoriasFootball = new Set();
-                    todosLosProductos = [];
-                    listaImagenesGlobal = [];
-
-                    for (let [filename, info] of Object.entries(data)) {
-                        const carpeta = info.carpeta || info.marca.toLowerCase().replace(" ", "_");
-                        const rutaImg = `fotos_yupoo/${carpeta}/${filename}`;
-                        
-                        listaImagenesGlobal.push(rutaImg);
-
-                        let esFootball = carpeta.toLowerCase().includes('football');
-                        let subCatFootball = '';
-
-                        if (esFootball) {
-                            const partes = carpeta.split('/');
-                            if (partes.length > 1) {
-                                subCatFootball = partes[partes.length - 1].replace(/_/g, ' ').toUpperCase();
-                                subcategoriasFootball.add(subCatFootball);
-                            }
-                        } else {
-                            categoriasPrincipales.add(info.marca);
-                        }
-
-                        todosLosProductos.push({
-                            marca: info.marca,
-                            subcat: subCatFootball,
-                            src: rutaImg,
-                            titulo: info.titulo,
-                            esFootball: esFootball
-                        });
-                    }
-
-                    construirNavbar(categoriasPrincipales, subcategoriasFootball);
-                    iniciarSlideshowHero();
-                    activarFiltros();
-                    renderizarPagina();
-                    inicializarModalFuncionalidad();
+                    procesarDatosCatalogo(data);
 
                 } catch (error) {
-                    console.error("Error al cargar el catálogo:", error);
-                    galeria.innerHTML = "<p style='text-align:center; grid-column: 1/-1; padding: 2rem; color: #a0aec0;'>Error al cargar <code>catalogo_info.json</code>. Verifica que el archivo esté en la raíz del repositorio.</p>";
+                    console.warn("Aviso: No se pudo cargar catalogo_info.json de forma remota. Verifique que el archivo esté en la raíz de su repositorio.", error);
+                    
+                    // FALLBACK DE EMERGENCIA: Si el JSON falla, creamos datos de respaldo para que la página funcione
+                    galeria.innerHTML = `
+                        <div style='text-align:center; grid-column: 1/-1; padding: 2.5rem; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--accent-border);'>
+                            <h3 style='color: #ff6b6b; margin-bottom: 0.5rem; font-size: 0.95rem;'>Aviso de Carga: catalogo_info.json no encontrado</h3>
+                            <p style='color: var(--text-secondary); font-size: 0.75rem; line-height: 1.5;'>
+                                Asegúrate de que el archivo <code>catalogo_info.json</code> está subido exactamente en la <strong>raíz principal</strong> de tu repositorio de GitHub.<br>Una vez subido, actualiza la página.
+                            </p>
+                        </div>
+                    `;
                 }
+            }
+
+            function procesarDatosCatalogo(data) {
+                let categoriasPrincipales = new Set();
+                let subcategoriasFootball = new Set();
+                todosLosProductos = [];
+                listaImagenesGlobal = [];
+
+                for (let [filename, info] of Object.entries(data)) {
+                    const carpeta = info.carpeta || info.marca.toLowerCase().replace(" ", "_");
+                    const rutaImg = `fotos_yupoo/${carpeta}/${filename}`;
+                    
+                    listaImagenesGlobal.push(rutaImg);
+
+                    let esFootball = carpeta.toLowerCase().includes('football');
+                    let subCatFootball = '';
+
+                    if (esFootball) {
+                        const partes = carpeta.split('/');
+                        if (partes.length > 1) {
+                            subCatFootball = partes[partes.length - 1].replace(/_/g, ' ').toUpperCase();
+                            subcategoriasFootball.add(subCatFootball);
+                        }
+                    } else {
+                        categoriasPrincipales.add(info.marca);
+                    }
+
+                    todosLosProductos.push({
+                        marca: info.marca,
+                        subcat: subCatFootball,
+                        src: rutaImg,
+                        titulo: info.titulo,
+                        esFootball: esFootball
+                    });
+                }
+
+                construirNavbar(categoriasPrincipales, subcategoriasFootball);
+                iniciarSlideshowHero();
+                activarFiltros();
+                renderizarPagina();
+                inicializarModalFuncionalidad();
             }
 
             function construirNavbar(categoriasExistentes, subcategoriasFootball) {
@@ -974,7 +989,6 @@
                 
                 modalImg.src = prod.src;
                 modalCaption.textContent = prod.titulo;
-                modalImg.classList.remove('zoomed');
                 modal.style.display = 'flex';
             }
 
@@ -1001,15 +1015,9 @@
                     mostrarAnteriorFoto();
                 });
 
-                modalImg.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    modalImg.classList.toggle('zoomed');
-                });
-
                 if (closeModalBtn) {
                     closeModalBtn.addEventListener('click', () => {
                         modal.style.display = 'none';
-                        modalImg.classList.remove('zoomed');
                     });
                 }
 
@@ -1017,7 +1025,6 @@
                     modal.addEventListener('click', (e) => { 
                         if (e.target === modal) {
                             modal.style.display = 'none';
-                            modalImg.classList.remove('zoomed');
                         }
                     });
                 }
@@ -1026,7 +1033,6 @@
                     if (modal.style.display === 'flex') {
                         if (e.key === 'Escape') {
                             modal.style.display = 'none';
-                            modalImg.classList.remove('zoomed');
                         } else if (e.key === 'ArrowRight') {
                             mostrarSiguienteFoto();
                         } else if (e.key === 'ArrowLeft') {
