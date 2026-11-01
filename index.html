@@ -34,11 +34,11 @@
             font-family: 'Montserrat', sans-serif;
             color: var(--text-primary);
             min-height: 100vh;
-            /* Margen superior dinámico para compensar las barras fijas (principal + subcategorías si se abren) */
+            /* Margen superior dinámico para compensar las barras fijas */
             padding-top: 110px; 
         }
 
-        /* TÍTULO SUPERIOR (AHORA FLUYE NATURALMENTE DEBAJO DE LAS BARRAS FIJAS) */
+        /* TÍTULO SUPERIOR */
         .brand-top-bar {
             width: 100%;
             background: transparent;
@@ -183,7 +183,7 @@
             overflow-x: auto;
             border-bottom: 1px solid var(--accent-border);
             position: fixed;
-            top: 45px; /* Justo debajo de la barra principal */
+            top: 45px;
             left: 0;
             z-index: 99998;
             -webkit-overflow-scrolling: touch;
@@ -405,7 +405,7 @@
         /* VERSIÓN PC */
         @media (min-width: 768px) {
             body {
-                padding-top: 130px; /* Espacio superior generoso en PC para las barras fijas y el logo */
+                padding-top: 130px;
             }
             .brand-top-bar {
                 padding: 0 3rem 0.5rem 3rem;
@@ -577,7 +577,7 @@
         <div id="subcategoriesListContainer" style="display: flex; gap: 6px;"></div>
     </div>
 
-    <!-- TÍTULO SUPERIOR (AHORA CON ESPACIO PERFECTO PARA NO QUEDARSE TAPADO) -->
+    <!-- TÍTULO SUPERIOR -->
     <div class="brand-top-bar">
         <div class="brand-logo">Stock Carlos</div>
     </div>
@@ -729,8 +729,15 @@
                 });
 
                 navCategories.innerHTML = htmlNav;
-                const primerBoton = navCategories.querySelector('.nav-btn');
-                if (primerBoton) primerBoton.classList.add('active');
+
+                // Seleccionar "Todas" por defecto al iniciar
+                const botonTodas = navCategories.querySelector('[data-filtro="todos"]');
+                if (botonTodas) {
+                    botonTodas.classList.add('active');
+                } else {
+                    const primerBoton = navCategories.querySelector('.nav-btn');
+                    if (primerBoton) primerBoton.classList.add('active');
+                }
 
                 let subHtml = '';
                 subcategoriasFootball.forEach(sub => {
