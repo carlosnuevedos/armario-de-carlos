@@ -37,7 +37,11 @@
             min-height: 100vh;
         }
 
+<<<<<<< HEAD
+        /* TÍTULO SUPERIOR */
+=======
         /* 1. TÍTULO SUPERIOR (DESAPARECE AL BAJAR) */
+>>>>>>> parent of 78b9424 (Update index.html)
         .brand-top-bar {
             width: 100%;
             background: rgba(26, 34, 42, 0.98);
@@ -55,7 +59,11 @@
             line-height: 1;
         }
 
+<<<<<<< HEAD
+        /* BARRA DE CATEGORÍAS FIJA EN MÓVIL Y PC CON Z-INDEX ALTO */
+=======
         /* 2. BARRA DE CATEGORÍAS FIJA EN EL TOP */
+>>>>>>> parent of 78b9424 (Update index.html)
         .nav-bar-row {
             display: flex;
             align-items: center;
@@ -137,7 +145,11 @@
             color: var(--btn-white-text);
         }
 
+<<<<<<< HEAD
+        /* CAJA DE CONTACTO CON MÁXIMA PRIORIDAD */
+=======
         /* CAJA DE CONTACTO FLOTANTE CON MÁXIMA PRIORIDAD */
+>>>>>>> parent of 78b9424 (Update index.html)
         .contact-info-box {
             display: none;
             position: absolute;
@@ -147,9 +159,15 @@
             border: 1px solid var(--accent-border);
             border-radius: 12px;
             padding: 12px 14px;
+<<<<<<< HEAD
+            box-shadow: 0 15px 35px rgba(0,0,0,0.85);
+            min-width: 220px;
+            z-index: 30000;
+=======
             box-shadow: 0 15px 35px rgba(0,0,0,0.8);
             min-width: 220px;
             z-index: 20000;
+>>>>>>> parent of 78b9424 (Update index.html)
             font-size: 0.75rem;
             color: var(--text-secondary);
             line-height: 1.6;
@@ -171,6 +189,10 @@
             color: #38ef7d;
         }
 
+<<<<<<< HEAD
+        /* DESPLEGABLE DE FOOTBALL CON Z-INDEX MÁXIMO */
+=======
+>>>>>>> parent of 78b9424 (Update index.html)
         .dropdown-container {
             position: relative;
             display: inline-block;
@@ -186,9 +208,15 @@
             border: 1px solid var(--accent-border);
             border-radius: 10px;
             padding: 6px;
+<<<<<<< HEAD
+            box-shadow: 0 10px 25px rgba(0,0,0,0.85);
+            min-width: 150px;
+            z-index: 30000;
+=======
             box-shadow: 0 10px 25px rgba(0,0,0,0.8);
             min-width: 150px;
             z-index: 20000;
+>>>>>>> parent of 78b9424 (Update index.html)
         }
 
         .dropdown-container:hover .dropdown-menu,
@@ -365,6 +393,47 @@
             text-align: center;
         }
 
+<<<<<<< HEAD
+        /* ESTILOS DE PAGINACIÓN */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .page-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--accent-border);
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .page-btn:hover {
+            background: var(--bg-card-hover);
+            color: var(--text-primary);
+        }
+
+        .page-btn.active {
+            background-color: var(--btn-white-bg);
+            color: var(--btn-white-text);
+            font-weight: 800;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+=======
+>>>>>>> parent of 78b9424 (Update index.html)
         /* VERSIÓN PC */
         @media (min-width: 768px) {
             .brand-top-bar {
@@ -379,7 +448,10 @@
             .nav-bar-row {
                 padding: 1rem 3rem;
                 gap: 20px;
+<<<<<<< HEAD
+=======
                 position: static;
+>>>>>>> parent of 78b9424 (Update index.html)
                 background: rgba(26, 34, 42, 0.95);
                 backdrop-filter: blur(12px);
                 border-bottom: 1px solid var(--accent-border);
@@ -475,7 +547,11 @@
             inset: 0;
             background-color: rgba(14, 18, 23, 0.92);
             backdrop-filter: blur(10px);
+<<<<<<< HEAD
+            z-index: 40000;
+=======
             z-index: 30000;
+>>>>>>> parent of 78b9424 (Update index.html)
             justify-content: center;
             align-items: center;
             flex-direction: column;
@@ -523,12 +599,18 @@
 </head>
 <body>
 
+<<<<<<< HEAD
+=======
     <!-- 1. TÍTULO SUPERIOR (AHORA SEPARADO Y LIBRE PARA DESAPARECER AL BAJAR) -->
+>>>>>>> parent of 78b9424 (Update index.html)
     <div class="brand-top-bar">
         <div class="brand-logo">Stock Carlos</div>
     </div>
     
+<<<<<<< HEAD
+=======
     <!-- 2. BARRA DE CATEGORÍAS Y CONTACTO (AHORA INDEPENDIENTE Y FIJA ARRIBA) -->
+>>>>>>> parent of 78b9424 (Update index.html)
     <div class="nav-bar-row">
         <nav class="nav-categories" id="navCategories">
         </nav>
@@ -554,6 +636,10 @@
             <span class="section-title">Novedades y catálogo</span>
         </div>
         <div class="gallery-grid" id="galeria"></div>
+<<<<<<< HEAD
+        <div class="pagination-container" id="paginationContainer"></div>
+=======
+>>>>>>> parent of 78b9424 (Update index.html)
     </main>
 
     <div id="imageModal" class="modal">
@@ -571,6 +657,10 @@
             const galeria = document.getElementById('galeria');
             const navCategories = document.getElementById('navCategories');
             const heroBanner = document.getElementById('heroBanner');
+<<<<<<< HEAD
+            const paginationContainer = document.getElementById('paginationContainer');
+=======
+>>>>>>> parent of 78b9424 (Update index.html)
             const modal = document.getElementById('imageModal');
             const modalImg = document.getElementById('modalImg');
             const modalCaption = document.getElementById('modalCaption');
@@ -594,7 +684,15 @@
                 });
             }
 
+<<<<<<< HEAD
+            let todosLosProductos = [];
             let listaImagenesGlobal = [];
+            let filtroActual = { tipo: 'todos', valor: '' };
+            let paginaActual = 1;
+            const itemsPorPagina = 60;
+=======
+            let listaImagenesGlobal = [];
+>>>>>>> parent of 78b9424 (Update index.html)
 
             async function cargarCatalogo() {
                 try {
@@ -604,7 +702,12 @@
                     const data = await response.json();
                     let categoriasPrincipales = new Set();
                     let subcategoriasFootball = new Set();
+<<<<<<< HEAD
+                    todosLosProductos = [];
+                    listaImagenesGlobal = [];
+=======
                     let tarjetasHTML = [];
+>>>>>>> parent of 78b9424 (Update index.html)
 
                     for (let [filename, info] of Object.entries(data)) {
                         const carpeta = info.carpeta || info.marca.toLowerCase().replace(" ", "_");
@@ -625,6 +728,17 @@
                             categoriasPrincipales.add(info.marca);
                         }
 
+<<<<<<< HEAD
+                        todosLosProductos.push({
+                            marca: info.marca,
+                            subcat: subCatFootball,
+                            src: rutaImg,
+                            titulo: info.titulo,
+                            esFootball: esFootball
+                        });
+                    }
+
+=======
                         tarjetasHTML.push(`
                             <div class="product-card" data-categoria="${info.marca}" data-subcat="${subCatFootball}" data-src="${rutaImg}" data-titulo="${info.titulo}">
                                 <div class="img-wrapper">
@@ -641,10 +755,15 @@
 
                     galeria.innerHTML = tarjetasHTML.join('');
 
+>>>>>>> parent of 78b9424 (Update index.html)
                     construirNavbar(categoriasPrincipales, subcategoriasFootball);
                     iniciarSlideshowHero();
                     activarFiltros();
                     activarModal();
+<<<<<<< HEAD
+                    renderizarPagina();
+=======
+>>>>>>> parent of 78b9424 (Update index.html)
 
                 } catch (error) {
                     console.error("Error al cargar el catálogo:", error);
@@ -713,7 +832,10 @@
 
             function activarFiltros() {
                 const buttons = document.querySelectorAll('.nav-bar-row .nav-btn, .nav-bar-row .dropdown-item');
+<<<<<<< HEAD
+=======
                 const cards = document.querySelectorAll('.product-card');
+>>>>>>> parent of 78b9424 (Update index.html)
 
                 buttons.forEach(button => {
                     button.addEventListener('click', () => {
@@ -723,6 +845,20 @@
                         const filtroCat = button.getAttribute('data-filtro');
                         const filtroSubCat = button.getAttribute('data-subfiltro');
 
+<<<<<<< HEAD
+                        if (filtroCat === 'todos') {
+                            filtroActual = { tipo: 'todos', valor: '' };
+                        } else if (filtroSubCat) {
+                            filtroActual = { tipo: 'subcat', valor: filtroSubCat };
+                        } else if (filtroCat === 'Football') {
+                            filtroActual = { tipo: 'football_all', valor: '' };
+                        } else if (filtroCat) {
+                            filtroActual = { tipo: 'marca', valor: filtroCat };
+                        }
+
+                        paginaActual = 1;
+                        renderizarPagina();
+=======
                         cards.forEach(card => {
                             const catCard = card.getAttribute('data-categoria');
                             const subCatCard = card.getAttribute('data-subcat');
@@ -739,6 +875,7 @@
                                 card.style.display = 'none';
                             }
                         });
+>>>>>>> parent of 78b9424 (Update index.html)
 
                         const targetElement = document.getElementById('galeriaContainer');
                         const headerOffset = 80;
@@ -753,6 +890,69 @@
                 });
             }
 
+<<<<<<< HEAD
+            function renderizarPagina() {
+                let productosFiltrados = todosLosProductos.filter(prod => {
+                    if (filtroActual.tipo === 'todos') return true;
+                    if (filtroActual.tipo === 'marca') return prod.marca.toLowerCase() === filtroActual.valor.toLowerCase();
+                    if (filtroActual.tipo === 'football_all') return prod.esFootball || prod.subcat !== '';
+                    if (filtroActual.tipo === 'subcat') return prod.subcat === filtroActual.valor;
+                    return true;
+                });
+
+                const totalPaginas = Math.ceil(productosFiltrados.length / itemsPorPagina) || 1;
+                if (paginaActual > totalPaginas) paginaActual = totalPaginas;
+
+                const inicio = (paginaActual - 1) * itemsPorPagina;
+                const fin = inicio + itemsPorPagina;
+                const productosPagina = productosFiltrados.slice(inicio, fin);
+
+                let tarjetasHTML = productosPagina.map(prod => `
+                    <div class="product-card" data-src="${prod.src}" data-titulo="${prod.titulo}">
+                        <div class="img-wrapper">
+                            <img src="${prod.src}" alt="${prod.titulo}" loading="lazy">
+                        </div>
+                        <div class="card-info">
+                            <span class="brand-tag">${prod.marca}</span>
+                            <span class="product-title">${prod.titulo}</span>
+                            <div class="action-btn">Ver producto</div>
+                        </div>
+                    </div>
+                `).join('');
+
+                galeria.innerHTML = tarjetasHTML.length > 0 ? tarjetasHTML : "<p style='text-align:center; grid-column: 1/-1; padding: 2rem; color: #a0aec0;'>No hay productos en esta categoría.</p>";
+
+                let paginacionHTML = '';
+                if (totalPaginas > 1) {
+                    paginacionHTML += `<button class="page-btn" ${paginaActual === 1 ? 'disabled' : ''} onclick="cambiarPagina(${paginaActual - 1})">Anterior</button>`;
+                    
+                    for (let i = 1; i <= totalPaginas; i++) {
+                        if (i === 1 || i === totalPaginas || (i >= paginaActual - 2 && i <= paginaActual + 2)) {
+                            paginacionHTML += `<button class="page-btn ${i === paginaActual ? 'active' : ''}" onclick="cambiarPagina(${i})">${i}</button>`;
+                        } else if (i === paginaActual - 3 || i === paginaActual + 3) {
+                            paginacionHTML += `<span style="color: var(--text-secondary); padding: 0 4px;">...</span>`;
+                        }
+                    }
+
+                    paginacionHTML += `<button class="page-btn" ${paginaActual === totalPaginas ? 'disabled' : ''} onclick="cambiarPagina(${paginaActual + 1})">Siguiente</button>`;
+                }
+                paginationContainer.innerHTML = paginacionHTML;
+
+                activarModal();
+            }
+
+            window.cambiarPagina = function(numPagina) {
+                paginaActual = numPagina;
+                renderizarPagina();
+                const targetElement = document.getElementById('galeriaContainer');
+                const headerOffset = 80;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            };
+
+=======
+>>>>>>> parent of 78b9424 (Update index.html)
             function activarModal() {
                 const cards = document.querySelectorAll('.product-card');
                 cards.forEach(card => {
