@@ -192,19 +192,12 @@
             z-index: 100000;
         }
 
-        /* En PC permitimos hover, en móvil mandará la clase .show controlada por JS */
         @media (min-width: 768px) {
             .dropdown-container:hover .dropdown-menu {
                 display: flex;
                 flex-direction: column;
                 gap: 4px;
             }
-        }
-
-        .dropdown-menu.show {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
         }
 
         .dropdown-item {
@@ -746,27 +739,26 @@
                 const primerBoton = navCategories.querySelector('.nav-btn');
                 if (primerBoton) primerBoton.classList.add('active');
 
-                // LÓGICA TÁCTIL BLINDADA PARA EL MENÚ FOOTBALL
+                // SOLUCIÓN TÁCTIL LIMPIA Y DIRECTA PARA EL MENÚ FOOTBALL
                 const footballBtn = document.getElementById('footballBtn');
                 const footballDropdownMenu = document.getElementById('footballDropdownMenu');
-                const footballContainer = document.getElementById('footballDropdownContainer');
 
                 if (footballBtn && footballDropdownMenu) {
                     footballBtn.addEventListener('click', (e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        footballDropdownMenu.classList.toggle('show');
-                    });
-
-                    document.addEventListener('click', (e) => {
-                        if (footballContainer && !footballContainer.contains(e.target)) {
-                            footballDropdownMenu.classList.remove('show');
+                        if (footballDropdownMenu.style.display === 'flex') {
+                            footballDropdownMenu.style.display = 'none';
+                        } else {
+                            footballDropdownMenu.style.display = 'flex';
+                            footballDropdownMenu.style.flexDirection = 'column';
+                            footballDropdownMenu.style.gap = '4px';
                         }
                     });
 
                     footballDropdownMenu.querySelectorAll('.dropdown-item').forEach(item => {
                         item.addEventListener('click', () => {
-                            footballDropdownMenu.classList.remove('show');
+                            footballDropdownMenu.style.display = 'none';
                         });
                     });
                 }
