@@ -34,6 +34,7 @@
             font-family: 'Montserrat', sans-serif;
             color: var(--text-primary);
             min-height: 100vh;
+            padding-top: 52px; /* Compensa la barra fija superior */
         }
 
         /* TÍTULO SUPERIOR */
@@ -54,7 +55,7 @@
             line-height: 1;
         }
 
-        /* CONTENEDOR FIJO (POSITION FIXED PARA ASEGURAR QUE NUNCA SE DESPRENDA) */
+        /* BARRA DE CATEGORÍAS Y CONTACTO FIJA */
         .nav-bar-row {
             display: flex;
             align-items: center;
@@ -70,11 +71,6 @@
             top: 0;
             left: 0;
             z-index: 99999;
-        }
-
-        /* Truco para compensar el espacio que deja la barra fija al pasar a fixed */
-        body {
-            padding-top: 52px; 
         }
 
         .nav-categories {
@@ -196,6 +192,7 @@
             z-index: 100000;
         }
 
+        /* En PC permitimos hover, en móvil mandará la clase .show controlada por JS */
         @media (min-width: 768px) {
             .dropdown-container:hover .dropdown-menu {
                 display: flex;
@@ -419,7 +416,7 @@
         /* VERSIÓN PC */
         @media (min-width: 768px) {
             body {
-                padding-top: 0; /* En PC la barra no es fixed para mantener el flujo normal con el logo arriba */
+                padding-top: 0;
             }
             .nav-bar-row {
                 position: relative;
@@ -749,12 +746,14 @@
                 const primerBoton = navCategories.querySelector('.nav-btn');
                 if (primerBoton) primerBoton.classList.add('active');
 
+                // LÓGICA TÁCTIL BLINDADA PARA EL MENÚ FOOTBALL
                 const footballBtn = document.getElementById('footballBtn');
                 const footballDropdownMenu = document.getElementById('footballDropdownMenu');
                 const footballContainer = document.getElementById('footballDropdownContainer');
 
                 if (footballBtn && footballDropdownMenu) {
                     footballBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
                         e.stopPropagation();
                         footballDropdownMenu.classList.toggle('show');
                     });
