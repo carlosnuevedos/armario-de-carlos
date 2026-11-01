@@ -55,7 +55,7 @@
             line-height: 1;
         }
 
-        /* BARRA DE CATEGORÍAS FIJA EN MÓVIL Y PC CON Z-INDEX ALTO */
+        /* BARRA DE NAVEGACIÓN FIJA CON Z-INDEX EXTREMO */
         .nav-bar-row {
             display: flex;
             align-items: center;
@@ -68,7 +68,7 @@
             border-bottom: 1px solid var(--accent-border);
             position: sticky;
             top: 0;
-            z-index: 9999;
+            z-index: 99999;
         }
 
         .nav-categories {
@@ -113,7 +113,6 @@
         .contact-dropdown-container {
             position: relative;
             flex-shrink: 0;
-            z-index: 10000;
         }
 
         .contact-btn {
@@ -137,7 +136,7 @@
             color: var(--btn-white-text);
         }
 
-        /* CAJA DE CONTACTO CON MÁXIMA PRIORIDAD */
+        /* CAJA DE CONTACTO FLOTANTE */
         .contact-info-box {
             display: none;
             position: absolute;
@@ -149,7 +148,7 @@
             padding: 12px 14px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.85);
             min-width: 220px;
-            z-index: 30000;
+            z-index: 100000;
             font-size: 0.75rem;
             color: var(--text-secondary);
             line-height: 1.6;
@@ -171,11 +170,10 @@
             color: #38ef7d;
         }
 
-        /* DESPLEGABLE DE FOOTBALL CON Z-INDEX MÁXIMO */
+        /* MENÚ DESPLEGABLE DE FOOTBALL (COMPATIBLE MÓVIL Y PC) */
         .dropdown-container {
             position: relative;
             display: inline-block;
-            z-index: 10000;
         }
 
         .dropdown-menu {
@@ -189,10 +187,18 @@
             padding: 6px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.85);
             min-width: 150px;
-            z-index: 30000;
+            z-index: 100000;
         }
 
-        .dropdown-container:hover .dropdown-menu,
+        /* En PC se despliega con hover, en móvil mediante la clase .show управляada por JS */
+        @media (min-width: 768px) {
+            .dropdown-container:hover .dropdown-menu {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+
         .dropdown-menu.show {
             display: flex;
             flex-direction: column;
@@ -218,6 +224,7 @@
             color: var(--btn-white-text);
         }
 
+        /* HERO BANNER */
         .hero-section {
             position: relative;
             height: 140px;
@@ -288,7 +295,7 @@
             color: var(--text-primary);
         }
 
-        /* 2 COLUMNAS ESTRICTAS SIN DESBORDAR */
+        /* 2 COLUMNAS ESTRICTAS */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -366,7 +373,7 @@
             text-align: center;
         }
 
-        /* ESTILOS DE PAGINACIÓN */
+        /* PAGINACIÓN */
         .pagination-container {
             display: flex;
             justify-content: center;
@@ -513,7 +520,7 @@
             inset: 0;
             background-color: rgba(14, 18, 23, 0.92);
             backdrop-filter: blur(10px);
-            z-index: 40000;
+            z-index: 200000;
             justify-content: center;
             align-items: center;
             flex-direction: column;
@@ -712,9 +719,9 @@
                     if (cat === "Football") {
                         if (subcategoriasFootball.size > 0 || Array.from(categoriasExistentes).some(c => c.toLowerCase() === 'football')) {
                             htmlNav += `
-                                <div class="dropdown-container">
+                                <div class="dropdown-container" id="footballDropdownContainer">
                                     <button class="nav-btn" id="footballBtn" data-filtro="Football" type="button">Football ▾</button>
-                                    <div class="dropdown-menu">
+                                    <div class="dropdown-menu" id="footballDropdownMenu">
                                         <button class="dropdown-item" data-filtro="Football" type="button">Todo Football</button>
                             `;
 
@@ -734,6 +741,33 @@
                 navCategories.innerHTML = htmlNav;
                 const primerBoton = navCategories.querySelector('.nav-btn');
                 if (primerBoton) primerBoton.classList.add('active');
+
+                // ACTIVAR APERTURA TÁCTIL PARA EL MENÚ DE FOOTBALL
+                const footballBtn = document.getElementById('footballBtn');
+                const footballDropdownMenu = document.getElementById('footballDropdownMenu');
+                const footballContainer = document.getElementById('footballDropdownContainer');
+
+                if (footballBtn && footballDropdownMenu) {
+                    footballBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        // Cierra el menú si ya está abierto, o lo abre si está cerrado
+                        footballDropdownMenu.classList.toggle('show');
+                    });
+
+                    // Si se hace clic fuera del menú de football, se oculta
+                    document.addEventListener('click', (e) => {
+                        if (footballContainer && !footballContainer.contains(e.target)) {
+                            footballDropdownMenu.classList.remove('show');
+                        }
+                    });
+
+                    // Si se pulsa en un elemento de subcategoría dentro del menú, se oculta
+                    footballDropdownMenu.querySelectorAll('.dropdown-item').forEach(item => {
+                        item.addEventListener('click', () => {
+                            footballDropdownMenu.classList.remove('show');
+                        });
+                    });
+                }
             }
 
             function iniciarSlideshowHero() {
@@ -753,6 +787,9 @@
 
                 buttons.forEach(button => {
                     button.addEventListener('click', () => {
+                        // Si es el botón principal de football en móvil, evitamos que limpie la selección general antes de desplegar
+                        if (button.id === 'footballBtn') return;
+
                         buttons.forEach(btn => btn.classList.remove('active'));
                         button.classList.add('active');
 
@@ -790,82 +827,4 @@
                     if (filtroActual.tipo === 'todos') return true;
                     if (filtroActual.tipo === 'marca') return prod.marca.toLowerCase() === filtroActual.valor.toLowerCase();
                     if (filtroActual.tipo === 'football_all') return prod.esFootball || prod.subcat !== '';
-                    if (filtroActual.tipo === 'subcat') return prod.subcat === filtroActual.valor;
-                    return true;
-                });
-
-                const totalPaginas = Math.ceil(productosFiltrados.length / itemsPorPagina) || 1;
-                if (paginaActual > totalPaginas) paginaActual = totalPaginas;
-
-                const inicio = (paginaActual - 1) * itemsPorPagina;
-                const fin = inicio + itemsPorPagina;
-                const productosPagina = productosFiltrados.slice(inicio, fin);
-
-                let tarjetasHTML = productosPagina.map(prod => `
-                    <div class="product-card" data-src="${prod.src}" data-titulo="${prod.titulo}">
-                        <div class="img-wrapper">
-                            <img src="${prod.src}" alt="${prod.titulo}" loading="lazy">
-                        </div>
-                        <div class="card-info">
-                            <span class="brand-tag">${prod.marca}</span>
-                            <span class="product-title">${prod.titulo}</span>
-                            <div class="action-btn">Ver producto</div>
-                        </div>
-                    </div>
-                `).join('');
-
-                galeria.innerHTML = tarjetasHTML.length > 0 ? tarjetasHTML : "<p style='text-align:center; grid-column: 1/-1; padding: 2rem; color: #a0aec0;'>No hay productos en esta categoría.</p>";
-
-                let paginacionHTML = '';
-                if (totalPaginas > 1) {
-                    paginacionHTML += `<button class="page-btn" ${paginaActual === 1 ? 'disabled' : ''} onclick="cambiarPagina(${paginaActual - 1})">Anterior</button>`;
-                    
-                    for (let i = 1; i <= totalPaginas; i++) {
-                        if (i === 1 || i === totalPaginas || (i >= paginaActual - 2 && i <= paginaActual + 2)) {
-                            paginacionHTML += `<button class="page-btn ${i === paginaActual ? 'active' : ''}" onclick="cambiarPagina(${i})">${i}</button>`;
-                        } else if (i === paginaActual - 3 || i === paginaActual + 3) {
-                            paginacionHTML += `<span style="color: var(--text-secondary); padding: 0 4px;">...</span>`;
-                        }
-                    }
-
-                    paginacionHTML += `<button class="page-btn" ${paginaActual === totalPaginas ? 'disabled' : ''} onclick="cambiarPagina(${paginaActual + 1})">Siguiente</button>`;
-                }
-                paginationContainer.innerHTML = paginacionHTML;
-
-                activarModal();
-            }
-
-            window.cambiarPagina = function(numPagina) {
-                paginaActual = numPagina;
-                renderizarPagina();
-                const targetElement = document.getElementById('galeriaContainer');
-                const headerOffset = 80;
-                const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-            };
-
-            function activarModal() {
-                const cards = document.querySelectorAll('.product-card');
-                cards.forEach(card => {
-                    card.addEventListener('click', () => {
-                        modal.style.display = 'flex';
-                        modalImg.src = card.getAttribute('data-src');
-                        modalCaption.textContent = card.getAttribute('data-titulo');
-                    });
-                });
-
-                if (closeModalBtn) {
-                    closeModalBtn.addEventListener('click', () => modal.style.display = 'none');
-                }
-                if (modal) {
-                    modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
-                }
-                document.addEventListener('keydown', (e) => { if (e.key === 'Escape') modal.style.display = 'none'; });
-            }
-
-            cargarCatalogo();
-        });
-    </script>
-</body>
-</html>
+                    if (filtroActual.tipo === 'subcat') return
