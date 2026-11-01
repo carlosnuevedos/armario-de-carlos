@@ -37,11 +37,7 @@
             min-height: 100vh;
         }
 
-<<<<<<< HEAD
         /* TÍTULO SUPERIOR */
-=======
-        /* 1. TÍTULO SUPERIOR (DESAPARECE AL BAJAR) */
->>>>>>> parent of 78b9424 (Update index.html)
         .brand-top-bar {
             width: 100%;
             background: rgba(26, 34, 42, 0.98);
@@ -59,11 +55,7 @@
             line-height: 1;
         }
 
-<<<<<<< HEAD
         /* BARRA DE CATEGORÍAS FIJA EN MÓVIL Y PC CON Z-INDEX ALTO */
-=======
-        /* 2. BARRA DE CATEGORÍAS FIJA EN EL TOP */
->>>>>>> parent of 78b9424 (Update index.html)
         .nav-bar-row {
             display: flex;
             align-items: center;
@@ -145,11 +137,7 @@
             color: var(--btn-white-text);
         }
 
-<<<<<<< HEAD
         /* CAJA DE CONTACTO CON MÁXIMA PRIORIDAD */
-=======
-        /* CAJA DE CONTACTO FLOTANTE CON MÁXIMA PRIORIDAD */
->>>>>>> parent of 78b9424 (Update index.html)
         .contact-info-box {
             display: none;
             position: absolute;
@@ -159,15 +147,9 @@
             border: 1px solid var(--accent-border);
             border-radius: 12px;
             padding: 12px 14px;
-<<<<<<< HEAD
             box-shadow: 0 15px 35px rgba(0,0,0,0.85);
             min-width: 220px;
             z-index: 30000;
-=======
-            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
-            min-width: 220px;
-            z-index: 20000;
->>>>>>> parent of 78b9424 (Update index.html)
             font-size: 0.75rem;
             color: var(--text-secondary);
             line-height: 1.6;
@@ -189,10 +171,7 @@
             color: #38ef7d;
         }
 
-<<<<<<< HEAD
         /* DESPLEGABLE DE FOOTBALL CON Z-INDEX MÁXIMO */
-=======
->>>>>>> parent of 78b9424 (Update index.html)
         .dropdown-container {
             position: relative;
             display: inline-block;
@@ -208,15 +187,9 @@
             border: 1px solid var(--accent-border);
             border-radius: 10px;
             padding: 6px;
-<<<<<<< HEAD
             box-shadow: 0 10px 25px rgba(0,0,0,0.85);
             min-width: 150px;
             z-index: 30000;
-=======
-            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
-            min-width: 150px;
-            z-index: 20000;
->>>>>>> parent of 78b9424 (Update index.html)
         }
 
         .dropdown-container:hover .dropdown-menu,
@@ -393,7 +366,6 @@
             text-align: center;
         }
 
-<<<<<<< HEAD
         /* ESTILOS DE PAGINACIÓN */
         .pagination-container {
             display: flex;
@@ -432,8 +404,6 @@
             cursor: not-allowed;
         }
 
-=======
->>>>>>> parent of 78b9424 (Update index.html)
         /* VERSIÓN PC */
         @media (min-width: 768px) {
             .brand-top-bar {
@@ -448,10 +418,6 @@
             .nav-bar-row {
                 padding: 1rem 3rem;
                 gap: 20px;
-<<<<<<< HEAD
-=======
-                position: static;
->>>>>>> parent of 78b9424 (Update index.html)
                 background: rgba(26, 34, 42, 0.95);
                 backdrop-filter: blur(12px);
                 border-bottom: 1px solid var(--accent-border);
@@ -547,11 +513,7 @@
             inset: 0;
             background-color: rgba(14, 18, 23, 0.92);
             backdrop-filter: blur(10px);
-<<<<<<< HEAD
             z-index: 40000;
-=======
-            z-index: 30000;
->>>>>>> parent of 78b9424 (Update index.html)
             justify-content: center;
             align-items: center;
             flex-direction: column;
@@ -599,18 +561,10 @@
 </head>
 <body>
 
-<<<<<<< HEAD
-=======
-    <!-- 1. TÍTULO SUPERIOR (AHORA SEPARADO Y LIBRE PARA DESAPARECER AL BAJAR) -->
->>>>>>> parent of 78b9424 (Update index.html)
     <div class="brand-top-bar">
         <div class="brand-logo">Stock Carlos</div>
     </div>
     
-<<<<<<< HEAD
-=======
-    <!-- 2. BARRA DE CATEGORÍAS Y CONTACTO (AHORA INDEPENDIENTE Y FIJA ARRIBA) -->
->>>>>>> parent of 78b9424 (Update index.html)
     <div class="nav-bar-row">
         <nav class="nav-categories" id="navCategories">
         </nav>
@@ -636,10 +590,7 @@
             <span class="section-title">Novedades y catálogo</span>
         </div>
         <div class="gallery-grid" id="galeria"></div>
-<<<<<<< HEAD
         <div class="pagination-container" id="paginationContainer"></div>
-=======
->>>>>>> parent of 78b9424 (Update index.html)
     </main>
 
     <div id="imageModal" class="modal">
@@ -657,10 +608,7 @@
             const galeria = document.getElementById('galeria');
             const navCategories = document.getElementById('navCategories');
             const heroBanner = document.getElementById('heroBanner');
-<<<<<<< HEAD
             const paginationContainer = document.getElementById('paginationContainer');
-=======
->>>>>>> parent of 78b9424 (Update index.html)
             const modal = document.getElementById('imageModal');
             const modalImg = document.getElementById('modalImg');
             const modalCaption = document.getElementById('modalCaption');
@@ -684,15 +632,11 @@
                 });
             }
 
-<<<<<<< HEAD
             let todosLosProductos = [];
             let listaImagenesGlobal = [];
             let filtroActual = { tipo: 'todos', valor: '' };
             let paginaActual = 1;
             const itemsPorPagina = 60;
-=======
-            let listaImagenesGlobal = [];
->>>>>>> parent of 78b9424 (Update index.html)
 
             async function cargarCatalogo() {
                 try {
@@ -702,12 +646,8 @@
                     const data = await response.json();
                     let categoriasPrincipales = new Set();
                     let subcategoriasFootball = new Set();
-<<<<<<< HEAD
                     todosLosProductos = [];
                     listaImagenesGlobal = [];
-=======
-                    let tarjetasHTML = [];
->>>>>>> parent of 78b9424 (Update index.html)
 
                     for (let [filename, info] of Object.entries(data)) {
                         const carpeta = info.carpeta || info.marca.toLowerCase().replace(" ", "_");
@@ -728,7 +668,6 @@
                             categoriasPrincipales.add(info.marca);
                         }
 
-<<<<<<< HEAD
                         todosLosProductos.push({
                             marca: info.marca,
                             subcat: subCatFootball,
@@ -738,32 +677,11 @@
                         });
                     }
 
-=======
-                        tarjetasHTML.push(`
-                            <div class="product-card" data-categoria="${info.marca}" data-subcat="${subCatFootball}" data-src="${rutaImg}" data-titulo="${info.titulo}">
-                                <div class="img-wrapper">
-                                    <img src="${rutaImg}" alt="${info.titulo}" loading="lazy">
-                                </div>
-                                <div class="card-info">
-                                    <span class="brand-tag">${info.marca}</span>
-                                    <span class="product-title">${info.titulo}</span>
-                                    <div class="action-btn">Ver producto</div>
-                                </div>
-                            </div>
-                        `);
-                    }
-
-                    galeria.innerHTML = tarjetasHTML.join('');
-
->>>>>>> parent of 78b9424 (Update index.html)
                     construirNavbar(categoriasPrincipales, subcategoriasFootball);
                     iniciarSlideshowHero();
                     activarFiltros();
                     activarModal();
-<<<<<<< HEAD
                     renderizarPagina();
-=======
->>>>>>> parent of 78b9424 (Update index.html)
 
                 } catch (error) {
                     console.error("Error al cargar el catálogo:", error);
@@ -832,10 +750,6 @@
 
             function activarFiltros() {
                 const buttons = document.querySelectorAll('.nav-bar-row .nav-btn, .nav-bar-row .dropdown-item');
-<<<<<<< HEAD
-=======
-                const cards = document.querySelectorAll('.product-card');
->>>>>>> parent of 78b9424 (Update index.html)
 
                 buttons.forEach(button => {
                     button.addEventListener('click', () => {
@@ -845,7 +759,6 @@
                         const filtroCat = button.getAttribute('data-filtro');
                         const filtroSubCat = button.getAttribute('data-subfiltro');
 
-<<<<<<< HEAD
                         if (filtroCat === 'todos') {
                             filtroActual = { tipo: 'todos', valor: '' };
                         } else if (filtroSubCat) {
@@ -858,24 +771,6 @@
 
                         paginaActual = 1;
                         renderizarPagina();
-=======
-                        cards.forEach(card => {
-                            const catCard = card.getAttribute('data-categoria');
-                            const subCatCard = card.getAttribute('data-subcat');
-
-                            if (filtroCat === 'todos') {
-                                card.style.display = 'flex';
-                            } else if (filtroCat && catCard.toLowerCase() === filtroCat.toLowerCase()) {
-                                card.style.display = 'flex';
-                            } else if (filtroCat === 'Football' && (catCard.toLowerCase().includes('football') || subCatCard !== '')) {
-                                card.style.display = 'flex';
-                            } else if (filtroSubCat && subCatCard === filtroSubCat) {
-                                card.style.display = 'flex';
-                            } else {
-                                card.style.display = 'none';
-                            }
-                        });
->>>>>>> parent of 78b9424 (Update index.html)
 
                         const targetElement = document.getElementById('galeriaContainer');
                         const headerOffset = 80;
@@ -890,7 +785,6 @@
                 });
             }
 
-<<<<<<< HEAD
             function renderizarPagina() {
                 let productosFiltrados = todosLosProductos.filter(prod => {
                     if (filtroActual.tipo === 'todos') return true;
@@ -951,8 +845,6 @@
                 window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
             };
 
-=======
->>>>>>> parent of 78b9424 (Update index.html)
             function activarModal() {
                 const cards = document.querySelectorAll('.product-card');
                 cards.forEach(card => {
