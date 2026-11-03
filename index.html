@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stock Carlos | Zapatillas Deportivas</title>
+    <title>Stock Carlos | Catálogo Oficial</title>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -35,7 +35,7 @@
             font-family: 'Montserrat', sans-serif;
             color: var(--text-primary);
             min-height: 100vh;
-            padding-top: 110px;
+            padding-top: 115px;
         }
 
         /* HEADER FIJO */
@@ -293,6 +293,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            scroll-margin-top: 130px; /* Para que al hacer scroll no quede tapado por el header */
         }
 
         .section-title {
@@ -375,6 +376,7 @@
             text-align: center;
         }
 
+        /* PAGINACIÓN ESTRUCTURADA */
         .pagination-container {
             display: flex;
             justify-content: center;
@@ -393,6 +395,12 @@
             font-size: 0.75rem;
             font-weight: 600;
             cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            background: var(--bg-card-hover);
+            color: var(--text-primary);
         }
 
         .page-btn.active {
@@ -402,12 +410,18 @@
         }
 
         .page-btn:disabled {
-            opacity: 0.4;
+            opacity: 0.3;
             cursor: not-allowed;
         }
 
+        .page-dots {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            padding: 0 2px;
+        }
+
         @media (min-width: 768px) {
-            body { padding-top: 140px; }
+            body { padding-top: 135px; }
             .brand-logo { font-size: 2.5rem; }
             .nav-bar-row, .subcategories-bar { padding-left: 3rem; padding-right: 3rem; }
             .nav-btn { padding: 8px 18px; font-size: 0.85rem; border-radius: 30px; }
@@ -494,10 +508,12 @@
     </section>
 
     <main class="main-container" id="galeriaContainer">
-        <div class="section-header">
+        <div class="section-header" id="galeriaHeader">
             <span class="section-title">Novedades y catálogo</span>
         </div>
-        <div class="gallery-grid" id="galeria"></div>
+        <div class="gallery-grid" id="galeria">
+            <p style='text-align:center; grid-column: 1/-1; padding: 2rem; color: var(--text-secondary);'>Cargando catálogo...</p>
+        </div>
         <div class="pagination-container" id="paginationContainer"></div>
     </main>
 
@@ -513,6 +529,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const galeria = document.getElementById('galeria');
+            const galeriaHeader = document.getElementById('galeriaHeader');
             const navCategories = document.getElementById('navCategories');
             const heroBanner = document.getElementById('heroBanner');
             const paginationContainer = document.getElementById('paginationContainer');
@@ -528,7 +545,6 @@
             const contactInfoBox = document.getElementById('contactInfoBox');
             const scrollTopBtn = document.getElementById('scrollTopBtn');
 
-            // Control del botón flotante "Volver arriba"
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 300) {
                     scrollTopBtn.classList.add('show');
@@ -559,18 +575,35 @@
             let paginaActual = 1;
             const itemsPorPagina = 60;
 
-            async function cargarCatalogo() {
-                try {
-                    let response = await fetch('catalogo_info.json');
-                    if (!response.ok) response = await fetch('./catalogo_info.json');
-                    if (!response.ok) throw new Error('No se pudo encontrar catalogo_info.json');
-                    
-                    const data = await response.json();
-                    procesarDatosCatalogo(data);
-                } catch (error) {
-                    console.warn("Aviso:", error);
-                    galeria.innerHTML = "<p style='text-align:center; grid-column: 1/-1; padding: 2rem; color: #ff6b6b;'>Error al cargar catalogo_info.json. Revisa que esté en la raíz.</p>";
+            // Función para hacer scroll hasta donde empiezan las fotos
+            function scrollToGaleria() {
+                if (galeriaHeader) {
+                    galeriaHeader.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
+            }
+
+            async function cargarCatalogo() {
+                const rutasPosibles = ['catalogo_info.json', './catalogo_info.json', '/catalogo_info.json'];
+                let data = null;
+
+                for (let ruta of rutasPosibles) {
+                    try {
+                        let response = await fetch(ruta);
+                        if (response.ok) {
+                            data = await response.json();
+                            break;
+                        }
+                    } catch (e) {
+                        // Continuar
+                    }
+                }
+
+                if (!data) {
+                    galeria.innerHTML = `<p style='text-align:center; grid-column: 1/-1; padding: 2rem; color: #ff6b6b;'>No se pudo cargar 'catalogo_info.json'. Comprueba que esté en la misma carpeta.</p>`;
+                    return;
+                }
+
+                procesarDatosCatalogo(data);
             }
 
             function procesarDatosCatalogo(data) {
@@ -579,15 +612,24 @@
                 todosLosProductos = [];
                 listaImagenesGlobal = [];
 
-                for (let [filename, info] of Object.entries(data)) {
-                    const carpeta = info.carpeta || info.marca.toLowerCase().replace(" ", "_");
+                const entries = Array.isArray(data) 
+                    ? data.map((item, index) => [`item_${index}.jpg`, item]) 
+                    : Object.entries(data);
+
+                for (let [filename, info] of entries) {
+                    if (!info) continue;
+
+                    const marca = info.marca || info.Marca || 'Otras';
+                    const carpeta = info.carpeta || info.Carpeta || marca.toLowerCase().replace(/\s+/g, "_");
+                    const titulo = info.titulo || info.Titulo || 'Sin título';
+                    const rawColor = info.color || info.Color || info.colores || info.Colores;
+                    let colorProd = (rawColor && String(rawColor).trim() !== '') ? String(rawColor).trim() : 'Varios';
+
                     const rutaImg = `fotos_yupoo/${carpeta}/${filename}`;
                     listaImagenesGlobal.push(rutaImg);
 
                     let esFootball = carpeta.toLowerCase().includes('football');
                     let subCatFootball = '';
-                    
-                    let colorProd = info.color || 'Varios';
 
                     if (esFootball) {
                         const partes = carpeta.split('/');
@@ -596,15 +638,15 @@
                             subcategoriasFootball.add(subCatFootball);
                         }
                     } else {
-                        categoriasPrincipales.add(info.marca);
+                        categoriasPrincipales.add(marca);
                     }
 
                     todosLosProductos.push({
-                        marca: info.marca,
+                        marca: marca,
                         subcat: subCatFootball,
                         color: colorProd,
                         src: rutaImg,
-                        titulo: info.titulo,
+                        titulo: titulo,
                         esFootball: esFootball
                     });
                 }
@@ -663,6 +705,7 @@
                         
                         paginaActual = 1;
                         renderizarPagina();
+                        scrollToGaleria(); // Hace scroll a donde empiezan las fotos al cambiar de marca
                     });
                 });
 
@@ -680,6 +723,7 @@
 
                         paginaActual = 1;
                         renderizarPagina();
+                        scrollToGaleria(); // Hace scroll al cambiar de subcategoría
                     });
                 });
             }
@@ -715,7 +759,7 @@
                 galeria.innerHTML = '';
 
                 if (productosPagina.length === 0) {
-                    galeria.innerHTML = "<p style='text-align:center; grid-column: 1/-1; padding: 2rem; color: var(--text-secondary);'>No hay productos disponibles.</p>";
+                    galeria.innerHTML = "<p style='text-align:center; grid-column: 1/-1; padding: 2rem; color: var(--text-secondary);'>No hay productos disponibles con esta combinación de filtros.</p>";
                     paginationContainer.innerHTML = '';
                     return;
                 }
@@ -728,7 +772,7 @@
                             <img src="${prod.src}" alt="${prod.titulo || 'Producto'}" loading="lazy">
                         </div>
                         <div class="card-info">
-                            <span class="brand-tag">${prod.marca}</span>
+                            <span class="brand-tag">${prod.marca} • ${prod.color}</span>
                             <span class="product-title">${prod.titulo || 'Sin título'}</span>
                             <div class="action-btn">Ver detalle</div>
                         </div>
@@ -736,7 +780,7 @@
 
                     card.addEventListener('click', () => {
                         modalImg.src = prod.src;
-                        modalCaption.textContent = `${prod.marca} - ${prod.titulo}`;
+                        modalCaption.textContent = `${prod.marca} - ${prod.titulo} (Color: ${prod.color})`;
                         modal.style.display = 'flex';
                     });
 
@@ -746,22 +790,74 @@
                 renderizarPaginacion(productosFiltrados.length);
             }
 
+            // PAGINACIÓN INTELIGENTE (Botón <- | 1 | ... | Actual-1 | Actual | Actual+1 | ... | Última | Botón ->)
             function renderizarPaginacion(totalItems) {
                 const totalPaginas = Math.ceil(totalItems / itemsPorPagina);
                 paginationContainer.innerHTML = '';
 
                 if (totalPaginas <= 1) return;
 
-                for (let i = 1; i <= totalPaginas; i++) {
-                    const btnPagina = document.createElement('button');
-                    btnPagina.className = `page-btn ${i === paginaActual ? 'active' : ''}`;
-                    btnPagina.textContent = i;
-                    btnPagina.addEventListener('click', () => {
-                        paginaActual = i;
+                // Botón Deslizar Atrás (<-)
+                const btnAtras = document.createElement('button');
+                btnAtras.className = 'page-btn';
+                btnAtras.innerHTML = '&larr;';
+                btnAtras.disabled = (paginaActual === 1);
+                btnAtras.addEventListener('click', () => {
+                    if (paginaActual > 1) {
+                        paginaActual--;
                         renderizarPagina();
+                        scrollToGaleria();
+                    }
+                });
+                paginationContainer.appendChild(btnAtras);
+
+                // Determinar qué botones numéricos mostrar
+                let paginasAMostrar = new Set();
+                paginasAMostrar.add(1); // Siempre muestra la primera página
+                paginasAMostrar.add(totalPaginas); // Siempre muestra la última página
+
+                // Página anterior, actual y siguiente
+                if (paginaActual - 1 > 0) paginasAMostrar.add(paginaActual - 1);
+                paginasAMostrar.add(paginaActual);
+                if (paginaActual + 1 <= totalPaginas) paginasAMostrar.add(paginaActual + 1);
+
+                const listaOrdenada = Array.from(paginasAMostrar).sort((a, b) => a - b);
+
+                let pagAnterior = 0;
+                listaOrdenada.forEach(numPag => {
+                    if (pagAnterior > 0 && numPag - pagAnterior > 1) {
+                        const dots = document.createElement('span');
+                        dots.className = 'page-dots';
+                        dots.textContent = '...';
+                        paginationContainer.appendChild(dots);
+                    }
+
+                    const btnNum = document.createElement('button');
+                    btnNum.className = `page-btn ${numPag === paginaActual ? 'active' : ''}`;
+                    btnNum.textContent = numPag;
+                    btnNum.addEventListener('click', () => {
+                        paginaActual = numPag;
+                        renderizarPagina();
+                        scrollToGaleria();
                     });
-                    paginationContainer.appendChild(btnPagina);
-                }
+                    paginationContainer.appendChild(btnNum);
+
+                    pagAnterior = numPag;
+                });
+
+                // Botón Deslizar Adelante (->)
+                const btnAdelante = document.createElement('button');
+                btnAdelante.className = 'page-btn';
+                btnAdelante.innerHTML = '&rarr;';
+                btnAdelante.disabled = (paginaActual === totalPaginas);
+                btnAdelante.addEventListener('click', () => {
+                    if (paginaActual < totalPaginas) {
+                        paginaActual++;
+                        renderizarPagina();
+                        scrollToGaleria();
+                    }
+                });
+                paginationContainer.appendChild(btnAdelante);
             }
 
             function iniciarSlideshowHero() {
