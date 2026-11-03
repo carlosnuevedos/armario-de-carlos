@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock Carlos | Zapatillas Deportivas</title>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Black+Ops+One&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-antracita: #1a222a;
@@ -28,34 +28,29 @@
         html, body {
             width: 100%;
             background-color: var(--bg-antracita);
+            scroll-behavior: smooth;
         }
 
         body {
             font-family: 'Montserrat', sans-serif;
             color: var(--text-primary);
             min-height: 100vh;
-            padding-top: 110px; 
+            padding-top: 110px;
         }
 
-        /* TÍTULO SUPERIOR */
-        .brand-top-bar {
+        /* HEADER FIJO */
+        .header-fixed-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            background: transparent;
-            padding: 0.8rem 1rem;
-            text-align: left;
-            margin-bottom: 0.5rem;
+            z-index: 99999;
+            background: rgba(26, 34, 42, 0.98);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--accent-border);
         }
 
-        .brand-logo {
-            font-family: 'Anton', sans-serif;
-            font-size: 1.8rem;
-            letter-spacing: 1.2px;
-            color: var(--text-primary);
-            text-transform: uppercase;
-            line-height: 1;
-        }
-
-        /* BARRA DE CATEGORÍAS Y CONTACTO FIJA UNIVERSAL */
         .nav-bar-row {
             display: flex;
             align-items: center;
@@ -63,14 +58,6 @@
             padding: 0.5rem 0.6rem;
             gap: 8px;
             width: 100%;
-            background: rgba(26, 34, 42, 0.98);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--accent-border);
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 99999;
         }
 
         .nav-categories {
@@ -138,7 +125,6 @@
             color: var(--btn-white-text);
         }
 
-        /* CAJA DE CONTACTO FLOTANTE */
         .contact-info-box {
             display: none;
             position: absolute;
@@ -168,45 +154,34 @@
             text-underline-offset: 3px;
         }
 
-        .contact-link:hover {
-            color: #38ef7d;
-        }
-
-        /* BARRA SECUNDARIA DE FOOTBALL FIJA */
+        /* BARRA SUB-CATEGORÍAS FOOTBALL */
         .subcategories-bar {
             display: none;
             width: 100%;
             background: rgba(20, 27, 34, 0.98);
-            padding: 8px 10px;
-            gap: 6px;
+            padding: 8px 12px;
+            gap: 8px;
             overflow-x: auto;
-            border-bottom: 1px solid var(--accent-border);
-            position: fixed;
-            top: 45px;
-            left: 0;
-            z-index: 99998;
-            -webkit-overflow-scrolling: touch;
+            border-top: 1px solid var(--accent-border);
+            align-items: center;
         }
 
         .subcategories-bar.show {
             display: flex;
         }
 
-        .subcategories-bar::-webkit-scrollbar {
-            display: none;
-        }
-
         .sub-btn {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--accent-border);
             color: var(--text-secondary);
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 12px;
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             font-weight: 600;
             cursor: pointer;
             white-space: nowrap;
             transition: all 0.2s;
+            flex-shrink: 0;
         }
 
         .sub-btn:hover, .sub-btn.active {
@@ -214,7 +189,56 @@
             color: var(--btn-white-text);
         }
 
-        /* HERO BANNER */
+        /* BOTÓN FLOTANTE VOLVER ARRIBA */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 20px;
+            background: rgba(26, 34, 42, 0.9);
+            color: #ffffff;
+            border: 1px solid var(--accent-border);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 99990;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+
+        .scroll-top-btn.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top-btn:hover {
+            background: var(--btn-white-bg);
+            color: var(--btn-white-text);
+            transform: translateY(-3px);
+        }
+
+        /* BRAND & HERO */
+        .brand-top-bar {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            text-align: left;
+        }
+
+        .brand-logo {
+            font-family: 'Anton', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 1.2px;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            line-height: 1;
+        }
+
         .hero-section {
             position: relative;
             height: 140px;
@@ -227,7 +251,6 @@
             background-size: cover;
             background-position: center;
             box-shadow: 0 6px 12px rgba(0,0,0,0.4);
-            z-index: 1;
         }
 
         .hero-section::before {
@@ -235,15 +258,12 @@
             position: absolute;
             inset: 0;
             backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
             background: rgba(18, 24, 30, 0.65);
-            z-index: 1;
         }
 
         .hero-overlay {
             position: relative;
             z-index: 2;
-            padding: 0.4rem;
             text-align: center;
         }
 
@@ -253,8 +273,6 @@
             letter-spacing: 1px;
             color: #ffffff;
             text-transform: uppercase;
-            margin-bottom: 0.1rem;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.9);
         }
 
         .hero-subtitle {
@@ -282,10 +300,9 @@
             font-weight: 800;
             letter-spacing: 0.8px;
             text-transform: uppercase;
-            color: var(--text-primary);
         }
 
-        /* GALERÍA 2 COLUMNAS */
+        /* GALERÍA */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -302,8 +319,6 @@
             flex-direction: column;
             transition: all 0.3s ease;
             cursor: pointer;
-            width: 100%;
-            min-width: 0;
         }
 
         .product-card:hover {
@@ -324,18 +339,12 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .product-card:hover img {
-            transform: scale(1.05);
         }
 
         .card-info {
             display: flex;
             flex-direction: column;
             gap: 2px;
-            min-width: 0;
         }
 
         .brand-tag {
@@ -343,7 +352,6 @@
             font-weight: 800;
             color: var(--text-secondary);
             text-transform: uppercase;
-            letter-spacing: 0.3px;
         }
 
         .product-title {
@@ -367,7 +375,6 @@
             text-align: center;
         }
 
-        /* PAGINACIÓN */
         .pagination-container {
             display: flex;
             justify-content: center;
@@ -386,12 +393,6 @@
             font-size: 0.75rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .page-btn:hover {
-            background: var(--bg-card-hover);
-            color: var(--text-primary);
         }
 
         .page-btn.active {
@@ -405,142 +406,38 @@
             cursor: not-allowed;
         }
 
-        /* VERSIÓN PC */
         @media (min-width: 768px) {
-            body {
-                padding-top: 130px;
-            }
-            .brand-top-bar {
-                padding: 0 3rem 0.5rem 3rem;
-            }
-            .brand-logo {
-                font-size: 2.5rem;
-                letter-spacing: 2px;
-            }
-            .nav-bar-row {
-                padding: 1rem 3rem;
-                gap: 20px;
-            }
-            .subcategories-bar {
-                top: 75px;
-                padding: 10px 3rem;
-            }
-            .nav-categories {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                flex-wrap: wrap;
-                width: auto;
-                overflow-x: visible;
-            }
-            .nav-btn {
-                padding: 8px 18px;
-                font-size: 0.85rem;
-                border-radius: 30px;
-            }
-            .contact-btn {
-                font-size: 1.4rem;
-                letter-spacing: 1.5px;
-                padding: 6px 20px;
-                border-radius: 30px;
-            }
-            .contact-info-box {
-                min-width: 280px;
-                padding: 16px 20px;
-                font-size: 0.85rem;
-            }
-            .sub-btn {
-                padding: 6px 14px;
-                font-size: 0.8rem;
-                border-radius: 16px;
-            }
-            .hero-section {
-                height: 440px;
-                margin: 1.5rem 3rem;
-            }
-            .hero-overlay {
-                padding: 2rem;
-            }
-            .hero-title {
-                font-size: 5rem;
-                letter-spacing: 3px;
-                margin-bottom: 0.75rem;
-            }
-            .hero-subtitle {
-                font-size: 1.1rem;
-                letter-spacing: 2.5px;
-            }
-            .main-container {
-                padding: 1rem 3rem 4rem 3rem;
-            }
-            .section-header {
-                margin-bottom: 1.5rem;
-            }
-            .section-title {
-                font-size: 1.2rem;
-            }
-            .gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-                gap: 20px;
-            }
-            .product-card {
-                padding: 12px;
-                border-radius: 16px;
-            }
-            .img-wrapper {
-                height: 200px;
-                border-radius: 10px;
-                margin-bottom: 12px;
-            }
-            .brand-tag {
-                font-size: 0.7rem;
-            }
-            .product-title {
-                font-size: 0.85rem;
-            }
-            .action-btn {
-                margin-top: 10px;
-                padding: 8px;
-                border-radius: 8px;
-                font-size: 0.75rem;
-            }
+            body { padding-top: 140px; }
+            .brand-logo { font-size: 2.5rem; }
+            .nav-bar-row, .subcategories-bar { padding-left: 3rem; padding-right: 3rem; }
+            .nav-btn { padding: 8px 18px; font-size: 0.85rem; border-radius: 30px; }
+            .contact-btn { font-size: 1.2rem; padding: 6px 20px; border-radius: 30px; }
+            .hero-section { height: 350px; margin: 1.5rem 3rem; }
+            .hero-title { font-size: 4rem; }
+            .hero-subtitle { font-size: 1rem; }
+            .main-container { padding: 1rem 3rem 4rem 3rem; }
+            .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+            .img-wrapper { height: 200px; }
+            .scroll-top-btn { bottom: 30px; right: 30px; width: 48px; height: 48px; font-size: 1.2rem; }
         }
 
-        /* MODAL CON ZOOM TÁCTIL LIBRE (CON DOS DEDOS EN MÓVIL) */
         .modal {
             display: none;
             position: fixed;
             inset: 0;
             background-color: rgba(14, 18, 23, 0.96);
-            backdrop-filter: blur(10px);
             z-index: 200000;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             padding: 1rem;
-            overflow: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .modal-container-inner {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 70vh;
-            overflow: auto;
         }
 
         .modal-content {
-            max-width: 100%;
-            max-height: 100%;
+            max-width: 90%;
+            max-height: 70vh;
             border-radius: 8px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
             object-fit: contain;
-            touch-action: pan-x pan-y pinch-zoom;
-            user-select: none;
-            -webkit-user-select: none;
         }
 
         .modal-caption {
@@ -548,8 +445,6 @@
             margin-top: 1rem;
             font-size: 1rem;
             font-weight: 600;
-            text-align: center;
-            z-index: 200005;
         }
 
         .close-modal {
@@ -557,103 +452,36 @@
             top: 20px;
             right: 20px;
             color: var(--text-primary);
-            font-size: 2.2rem;
+            font-size: 2rem;
             cursor: pointer;
-            z-index: 200006;
-            background: rgba(0,0,0,0.6);
-            width: 42px;
-            height: 42px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            border: 1px solid var(--accent-border);
-        }
-
-        .close-modal:hover {
-            opacity: 0.7;
-        }
-
-        /* BOTONES DE NAVEGACIÓN LATERAL (FLECHAS) */
-        .nav-modal-btn {
-            position: fixed;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(26, 34, 42, 0.9);
-            color: #ffffff;
-            border: 1px solid var(--accent-border);
-            font-size: 1.6rem;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 200004;
-            transition: all 0.2s ease;
-            user-select: none;
-        }
-
-        .nav-modal-btn:hover {
-            background: var(--btn-white-bg);
-            color: var(--btn-white-text);
-        }
-
-        .prev-modal-btn {
-            left: 15px;
-        }
-
-        .next-modal-btn {
-            right: 15px;
-        }
-
-        @media (min-width: 768px) {
-            .prev-modal-btn {
-                left: 30px;
-            }
-            .next-modal-btn {
-                right: 30px;
-            }
-            .nav-modal-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 1.8rem;
-            }
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-secondary);
-            font-size: 0.75rem;
-            border-top: 1px solid var(--accent-border);
         }
     </style>
 </head>
 <body>
 
-    <!-- BARRA DE CATEGORÍAS PRINCIPAL FIJA -->
-    <div class="nav-bar-row">
-        <nav class="nav-categories" id="navCategories">
-        </nav>
+    <header class="header-fixed-wrapper">
+        <!-- BARRA DE CATEGORÍAS DE MARCA -->
+        <div class="nav-bar-row">
+            <nav class="nav-categories" id="navCategories">
+                <!-- Se poblará dinámicamente -->
+            </nav>
 
-        <div class="contact-dropdown-container">
-            <button class="contact-btn" id="contactToggleBtn" type="button">Contacto</button>
-            <div class="contact-info-box" id="contactInfoBox">
-                E-mail: <a href="https://mail.google.com/mail/?view=cm&fs=1&to=carlosnuevedos@gmail.com" target="_blank" class="contact-link">carlosnuevedos@gmail.com</a><br>
-                WhatsApp: <a href="https://wa.me/34655121174" target="_blank" class="contact-link">655 12 11 74</a>
+            <div class="contact-dropdown-container">
+                <button class="contact-btn" id="contactToggleBtn" type="button">Contacto</button>
+                <div class="contact-info-box" id="contactInfoBox">
+                    E-mail: <a href="https://mail.google.com/mail/?view=cm&fs=1&to=carlosnuevedos@gmail.com" target="_blank" class="contact-link">carlosnuevedos@gmail.com</a><br>
+                    WhatsApp: <a href="https://wa.me/34655121174" target="_blank" class="contact-link">655 12 11 74</a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- BARRA SECUNDARIA DE SUBCATEGORÍAS DE FOOTBALL FIJA -->
-    <div class="subcategories-bar" id="subcategoriesBar">
-        <button class="sub-btn active" data-filtro="Football">Todo Football</button>
-        <div id="subcategoriesListContainer" style="display: flex; gap: 6px;"></div>
-    </div>
+        <!-- BARRA SUB-CATEGORÍAS FOOTBALL -->
+        <div class="subcategories-bar" id="subcategoriesBar">
+            <button class="sub-btn active" data-subfiltro="TODOS_FOOTBALL">Todo Football</button>
+            <div id="subcategoriesListContainer" style="display: flex; gap: 6px;"></div>
+        </div>
+    </header>
 
-    <!-- TÍTULO SUPERIOR -->
     <div class="brand-top-bar">
         <div class="brand-logo">Stock Carlos</div>
     </div>
@@ -673,20 +501,14 @@
         <div class="pagination-container" id="paginationContainer"></div>
     </main>
 
-    <!-- MODAL CON SOPORTE COMPLETO PARA GESTOS TÁCTILES Y ZOOM LIBRE -->
+    <!-- BOTÓN FLOTANTE PARA VOLVER ARRIBA -->
+    <button class="scroll-top-btn" id="scrollTopBtn" title="Volver arriba">&#9650;</button>
+
     <div id="imageModal" class="modal">
         <span class="close-modal" id="closeModalBtn">&times;</span>
-        <button class="nav-modal-btn prev-modal-btn" id="prevModalBtn">&#10094;</button>
-        <div class="modal-container-inner" id="modalContainerInner">
-            <img class="modal-content" id="modalImg" alt="Vista ampliada del producto">
-        </div>
-        <button class="nav-modal-btn next-modal-btn" id="nextModalBtn">&#10095;</button>
+        <img class="modal-content" id="modalImg" alt="Vista ampliada">
         <div class="modal-caption" id="modalCaption"></div>
     </div>
-
-    <footer>
-        <p>© Stock Carlos - Catálogo Académico</p>
-    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -694,69 +516,60 @@
             const navCategories = document.getElementById('navCategories');
             const heroBanner = document.getElementById('heroBanner');
             const paginationContainer = document.getElementById('paginationContainer');
-            
+            const subcategoriesBar = document.getElementById('subcategoriesBar');
+            const subcategoriesListContainer = document.getElementById('subcategoriesListContainer');
+
             const modal = document.getElementById('imageModal');
             const modalImg = document.getElementById('modalImg');
             const modalCaption = document.getElementById('modalCaption');
             const closeModalBtn = document.getElementById('closeModalBtn');
-            const prevModalBtn = document.getElementById('prevModalBtn');
-            const nextModalBtn = document.getElementById('nextModalBtn');
-
-            const subcategoriesBar = document.getElementById('subcategoriesBar');
-            const subcategoriesListContainer = document.getElementById('subcategoriesListContainer');
 
             const contactToggleBtn = document.getElementById('contactToggleBtn');
             const contactInfoBox = document.getElementById('contactInfoBox');
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+            // Control del botón flotante "Volver arriba"
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    scrollTopBtn.classList.add('show');
+                } else {
+                    scrollTopBtn.classList.remove('show');
+                }
+            });
+
+            scrollTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
 
             if (contactToggleBtn && contactInfoBox) {
                 contactToggleBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     contactInfoBox.classList.toggle('show');
                 });
-
-                document.addEventListener('click', () => {
-                    contactInfoBox.classList.remove('show');
-                });
-
-                contactInfoBox.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                });
+                document.addEventListener('click', () => contactInfoBox.classList.remove('show'));
             }
 
             let todosLosProductos = [];
             let productosRenderizadosActuales = []; 
             let listaImagenesGlobal = [];
-            let filtroActual = { tipo: 'todos', valor: '' };
+            
+            let filtroMarca = 'todos'; 
+            let filtroSubcat = ''; 
+
             let paginaActual = 1;
             const itemsPorPagina = 60;
-            let indiceModalActual = 0;
 
             async function cargarCatalogo() {
                 try {
-                    // Intentamos cargar el JSON desde distintas rutas comunes para evitar el error 404
                     let response = await fetch('catalogo_info.json');
-                    if (!response.ok) {
-                        response = await fetch('./catalogo_info.json');
-                    }
-                    if (!response.ok) {
-                        throw new Error('No se pudo encontrar catalogo_info.json en la raíz');
-                    }
+                    if (!response.ok) response = await fetch('./catalogo_info.json');
+                    if (!response.ok) throw new Error('No se pudo encontrar catalogo_info.json');
                     
                     const data = await response.json();
                     procesarDatosCatalogo(data);
-
                 } catch (error) {
-                    console.warn("Aviso: No se pudo cargar catalogo_info.json de forma remota. Verifique que el archivo esté en la raíz de su repositorio.", error);
-                    
-                    // FALLBACK DE EMERGENCIA: Si el JSON falla, creamos datos de respaldo para que la página funcione
-                    galeria.innerHTML = `
-                        <div style='text-align:center; grid-column: 1/-1; padding: 2.5rem; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--accent-border);'>
-                            <h3 style='color: #ff6b6b; margin-bottom: 0.5rem; font-size: 0.95rem;'>Aviso de Carga: catalogo_info.json no encontrado</h3>
-                            <p style='color: var(--text-secondary); font-size: 0.75rem; line-height: 1.5;'>
-                                Asegúrate de que el archivo <code>catalogo_info.json</code> está subido exactamente en la <strong>raíz principal</strong> de tu repositorio de GitHub.<br>Una vez subido, actualiza la página.
-                            </p>
-                        </div>
-                    `;
+                    console.warn("Aviso:", error);
+                    galeria.innerHTML = "<p style='text-align:center; grid-column: 1/-1; padding: 2rem; color: #ff6b6b;'>Error al cargar catalogo_info.json. Revisa que esté en la raíz.</p>";
                 }
             }
 
@@ -769,11 +582,12 @@
                 for (let [filename, info] of Object.entries(data)) {
                     const carpeta = info.carpeta || info.marca.toLowerCase().replace(" ", "_");
                     const rutaImg = `fotos_yupoo/${carpeta}/${filename}`;
-                    
                     listaImagenesGlobal.push(rutaImg);
 
                     let esFootball = carpeta.toLowerCase().includes('football');
                     let subCatFootball = '';
+                    
+                    let colorProd = info.color || 'Varios';
 
                     if (esFootball) {
                         const partes = carpeta.split('/');
@@ -788,6 +602,7 @@
                     todosLosProductos.push({
                         marca: info.marca,
                         subcat: subCatFootball,
+                        color: colorProd,
                         src: rutaImg,
                         titulo: info.titulo,
                         esFootball: esFootball
@@ -796,9 +611,8 @@
 
                 construirNavbar(categoriasPrincipales, subcategoriasFootball);
                 iniciarSlideshowHero();
-                activarFiltros();
+                activarEventosFiltro();
                 renderizarPagina();
-                inicializarModalFuncionalidad();
             }
 
             function construirNavbar(categoriasExistentes, subcategoriasFootball) {
@@ -808,28 +622,16 @@
                 ];
 
                 let htmlNav = "";
-
                 ordenPersonalizado.forEach(cat => {
                     if (cat === "Football") {
-                        if (subcategoriasFootball.size > 0 || Array.from(categoriasExistentes).some(c => c.toLowerCase() === 'football')) {
-                            htmlNav += `<button class="nav-btn" id="footballMainBtn" data-filtro="Football" type="button">Football ▾</button>`;
-                        }
+                        htmlNav += `<button class="nav-btn" id="footballMainBtn" data-filtro="Football" type="button">Football ▾</button>`;
                     } else if (cat === "Todas") {
-                        htmlNav += `<button class="nav-btn" data-filtro="todos" type="button">Todas</button>`;
+                        htmlNav += `<button class="nav-btn active" data-filtro="todos" type="button">Todas</button>`;
                     } else {
                         htmlNav += `<button class="nav-btn" data-filtro="${cat}" type="button">${cat}</button>`;
                     }
                 });
-
                 navCategories.innerHTML = htmlNav;
-
-                const botonTodas = navCategories.querySelector('[data-filtro="todos"]');
-                if (botonTodas) {
-                    botonTodas.classList.add('active');
-                } else {
-                    const primerBoton = navCategories.querySelector('.nav-btn');
-                    if (primerBoton) primerBoton.classList.add('active');
-                }
 
                 let subHtml = '';
                 subcategoriasFootball.forEach(sub => {
@@ -838,22 +640,10 @@
                 subcategoriesListContainer.innerHTML = subHtml;
             }
 
-            function iniciarSlideshowHero() {
-                if (listaImagenesGlobal.length === 0) return;
-
-                setInterval(() => {
-                    const randomIndex = Math.floor(Math.random() * listaImagenesGlobal.length);
-                    heroBanner.style.backgroundImage = `url('${listaImagenesGlobal[randomIndex]}')`;
-                }, 4500);
-
-                const initialIndex = Math.floor(Math.random() * listaImagenesGlobal.length);
-                heroBanner.style.backgroundImage = `url('${listaImagenesGlobal[initialIndex]}')`;
-            }
-
-            function activarFiltros() {
+            function activarEventosFiltro() {
                 const navButtons = document.querySelectorAll('.nav-bar-row .nav-btn');
                 const footballMainBtn = document.getElementById('footballMainBtn');
-                const subButtons = document.querySelectorAll('.subcategories-bar .sub-btn, #subcategoriesListContainer .sub-btn');
+                const subButtons = document.querySelectorAll('#subcategoriesListContainer .sub-btn, #subcategoriesBar .sub-btn');
 
                 navButtons.forEach(button => {
                     button.addEventListener('click', () => {
@@ -861,29 +651,18 @@
 
                         if (button === footballMainBtn) {
                             subcategoriesBar.classList.toggle('show');
-                            filtroActual = { tipo: 'football_all', valor: '' };
-                            navButtons.forEach(btn => btn.classList.remove('active'));
-                            button.classList.add('active');
-                            paginaActual = 1;
-                            renderizarPagina();
-                            return;
                         } else {
                             subcategoriesBar.classList.remove('show');
                         }
 
                         navButtons.forEach(btn => btn.classList.remove('active'));
-                        subButtons.forEach(sb => sb.classList.remove('active'));
                         button.classList.add('active');
 
-                        if (filtroCat === 'todos') {
-                            filtroActual = { tipo: 'todos', valor: '' };
-                        } else if (filtroCat) {
-                            filtroActual = { tipo: 'marca', valor: filtroCat };
-                        }
-
+                        filtroMarca = filtroCat;
+                        filtroSubcat = '';
+                        
                         paginaActual = 1;
                         renderizarPagina();
-                        desplazarAGaleria();
                     });
                 });
 
@@ -893,154 +672,107 @@
                         subBtn.classList.add('active');
 
                         const subVal = subBtn.getAttribute('data-subfiltro');
-                        const catVal = subBtn.getAttribute('data-filtro');
-
-                        if (catVal === 'Football') {
-                            filtroActual = { tipo: 'football_all', valor: '' };
-                        } else if (subVal) {
-                            filtroActual = { tipo: 'subcat', valor: subVal };
+                        if (subVal === 'TODOS_FOOTBALL') {
+                            filtroSubcat = '';
+                        } else {
+                            filtroSubcat = subVal;
                         }
 
                         paginaActual = 1;
                         renderizarPagina();
-                        desplazarAGaleria();
                     });
                 });
             }
 
-            function desplazarAGaleria() {
-                const targetElement = document.getElementById('galeriaContainer');
-                const headerOffset = 110;
-                const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            function filtrarProductos() {
+                return todosLosProductos.filter(producto => {
+                    let cumpleMarca = true;
+                    if (filtroMarca === 'todos') {
+                        cumpleMarca = true;
+                    } else if (filtroMarca.toLowerCase() === 'football') {
+                        cumpleMarca = producto.esFootball;
+                    } else {
+                        cumpleMarca = producto.marca.toLowerCase() === filtroMarca.toLowerCase();
+                    }
+
+                    let cumpleSubcat = true;
+                    if (filtroSubcat !== '') {
+                        cumpleSubcat = producto.subcat.toLowerCase() === filtroSubcat.toLowerCase();
+                    }
+
+                    return cumpleMarca && cumpleSubcat;
+                });
             }
 
             function renderizarPagina() {
-                let productosFiltrados = todosLosProductos.filter(prod => {
-                    if (filtroActual.tipo === 'todos') return true;
-                    if (filtroActual.tipo === 'marca') return prod.marca.toLowerCase() === filtroActual.valor.toLowerCase();
-                    if (filtroActual.tipo === 'football_all') return prod.esFootball || prod.subcat !== '';
-                    if (filtroActual.tipo === 'subcat') return prod.subcat === filtroActual.valor;
-                    return true;
-                });
-
-                const totalPaginas = Math.ceil(productosFiltrados.length / itemsPorPagina) || 1;
-                if (paginaActual > totalPaginas) paginaActual = totalPaginas;
+                const productosFiltrados = filtrarProductos();
+                productosRenderizadosActuales = productosFiltrados;
 
                 const inicio = (paginaActual - 1) * itemsPorPagina;
                 const fin = inicio + itemsPorPagina;
-                productosRenderizadosActuales = productosFiltrados.slice(inicio, fin);
+                const productosPagina = productosFiltrados.slice(inicio, fin);
 
-                let tarjetasHTML = productosRenderizadosActuales.map((prod, index) => `
-                    <div class="product-card" data-index="${index}">
+                galeria.innerHTML = '';
+
+                if (productosPagina.length === 0) {
+                    galeria.innerHTML = "<p style='text-align:center; grid-column: 1/-1; padding: 2rem; color: var(--text-secondary);'>No hay productos disponibles.</p>";
+                    paginationContainer.innerHTML = '';
+                    return;
+                }
+
+                productosPagina.forEach((prod) => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `
                         <div class="img-wrapper">
-                            <img src="${prod.src}" alt="${prod.titulo}" loading="lazy">
+                            <img src="${prod.src}" alt="${prod.titulo || 'Producto'}" loading="lazy">
                         </div>
                         <div class="card-info">
                             <span class="brand-tag">${prod.marca}</span>
-                            <span class="product-title">${prod.titulo}</span>
-                            <div class="action-btn">Ver producto</div>
+                            <span class="product-title">${prod.titulo || 'Sin título'}</span>
+                            <div class="action-btn">Ver detalle</div>
                         </div>
-                    </div>
-                `).join('');
+                    `;
 
-                galeria.innerHTML = tarjetasHTML.length > 0 ? tarjetasHTML : "<p style='text-align:center; grid-column: 1/-1; padding: 2rem; color: #a0aec0;'>No hay productos en esta categoría.</p>";
-
-                let paginacionHTML = '';
-                if (totalPaginas > 1) {
-                    paginacionHTML += `<button class="page-btn" ${paginaActual === 1 ? 'disabled' : ''} onclick="cambiarPagina(${paginaActual - 1})">Anterior</button>`;
-                    
-                    for (let i = 1; i <= totalPaginas; i++) {
-                        if (i === 1 || i === totalPaginas || (i >= paginaActual - 2 && i <= paginaActual + 2)) {
-                            paginacionHTML += `<button class="page-btn ${i === paginaActual ? 'active' : ''}" onclick="cambiarPagina(${i})">${i}</button>`;
-                        } else if (i === paginaActual - 3 || i === paginaActual + 3) {
-                            paginacionHTML += `<span style="color: var(--text-secondary); padding: 0 4px;">...</span>`;
-                        }
-                    }
-
-                    paginacionHTML += `<button class="page-btn" ${paginaActual === totalPaginas ? 'disabled' : ''} onclick="cambiarPagina(${paginaActual + 1})">Siguiente</button>`;
-                }
-                paginationContainer.innerHTML = paginacionHTML;
-
-                vincularEventosTarjetas();
-            }
-
-            window.cambiarPagina = function(numPagina) {
-                paginaActual = numPagina;
-                renderizarPagina();
-                desplazarAGaleria();
-            };
-
-            function vincularEventosTarjetas() {
-                const cards = document.querySelectorAll('.product-card');
-                cards.forEach(card => {
                     card.addEventListener('click', () => {
-                        const index = parseInt(card.getAttribute('data-index'));
-                        abrirModalEnIndice(index);
+                        modalImg.src = prod.src;
+                        modalCaption.textContent = `${prod.marca} - ${prod.titulo}`;
+                        modal.style.display = 'flex';
                     });
-                });
-            }
 
-            function abrirModalEnIndice(index) {
-                if (productosRenderizadosActuales.length === 0) return;
-                indiceModalActual = index;
-                const prod = productosRenderizadosActuales[indiceModalActual];
-                
-                modalImg.src = prod.src;
-                modalCaption.textContent = prod.titulo;
-                modal.style.display = 'flex';
-            }
-
-            function mostrarSiguienteFoto() {
-                if (productosRenderizadosActuales.length === 0) return;
-                indiceModalActual = (indiceModalActual + 1) % productosRenderizadosActuales.length;
-                abrirModalEnIndice(indiceModalActual);
-            }
-
-            function mostrarAnteriorFoto() {
-                if (productosRenderizadosActuales.length === 0) return;
-                indiceModalActual = (indiceModalActual - 1 + productosRenderizadosActuales.length) % productosRenderizadosActuales.length;
-                abrirModalEnIndice(indiceModalActual);
-            }
-
-            function inicializarModalFuncionalidad() {
-                nextModalBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    mostrarSiguienteFoto();
+                    galeria.appendChild(card);
                 });
 
-                prevModalBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    mostrarAnteriorFoto();
-                });
+                renderizarPaginacion(productosFiltrados.length);
+            }
 
-                if (closeModalBtn) {
-                    closeModalBtn.addEventListener('click', () => {
-                        modal.style.display = 'none';
+            function renderizarPaginacion(totalItems) {
+                const totalPaginas = Math.ceil(totalItems / itemsPorPagina);
+                paginationContainer.innerHTML = '';
+
+                if (totalPaginas <= 1) return;
+
+                for (let i = 1; i <= totalPaginas; i++) {
+                    const btnPagina = document.createElement('button');
+                    btnPagina.className = `page-btn ${i === paginaActual ? 'active' : ''}`;
+                    btnPagina.textContent = i;
+                    btnPagina.addEventListener('click', () => {
+                        paginaActual = i;
+                        renderizarPagina();
                     });
+                    paginationContainer.appendChild(btnPagina);
                 }
-
-                if (modal) {
-                    modal.addEventListener('click', (e) => { 
-                        if (e.target === modal) {
-                            modal.style.display = 'none';
-                        }
-                    });
-                }
-
-                document.addEventListener('keydown', (e) => {
-                    if (modal.style.display === 'flex') {
-                        if (e.key === 'Escape') {
-                            modal.style.display = 'none';
-                        } else if (e.key === 'ArrowRight') {
-                            mostrarSiguienteFoto();
-                        } else if (e.key === 'ArrowLeft') {
-                            mostrarAnteriorFoto();
-                        }
-                    }
-                });
             }
+
+            function iniciarSlideshowHero() {
+                if (listaImagenesGlobal.length === 0) return;
+                setInterval(() => {
+                    const randomIndex = Math.floor(Math.random() * listaImagenesGlobal.length);
+                    heroBanner.style.backgroundImage = `url('${listaImagenesGlobal[randomIndex]}')`;
+                }, 4500);
+            }
+
+            closeModalBtn.addEventListener('click', () => modal.style.display = 'none');
 
             cargarCatalogo();
         });
